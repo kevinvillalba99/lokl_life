@@ -25,6 +25,13 @@ export class PaymentComponent implements OnInit {
 
   tarjetaActiva: boolean = false;
 
+  private reference_pay?: string;
+
+  private card_number?: number;
+  private due_date_month?: number;
+  private due_date_day?: number;
+  private cvc?: number;
+
   @ViewChild('_inputCard') _inputCard: ElementRef = new ElementRef(HTMLInputElement)
   @ViewChild('_inputDueDate')   _inputDueDate: ElementRef = new ElementRef(HTMLInputElement)
   @ViewChild('_inputCvc')   _inputCvc: ElementRef = new ElementRef(HTMLInputElement)
@@ -189,6 +196,8 @@ export class PaymentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
+    this.reference_pay = localStorage?.getItem('reference_pay') ?? ''
 
     if(localStorage.getItem('type')){
 
@@ -374,13 +383,13 @@ export class PaymentComponent implements OnInit {
         "number_document": this.body.value.document_number,
         "number": this.body.value.phone,
         "email": this.body.value.emailAddress,
-        "numberCard": "4242424242424242",
-        "exp_month": "01",
-        "exp_year": "27",
-        "cvc": "123",
+        "numberCard": this.card_number,
+        "exp_month": this.due_date_month,
+        "exp_year": this.due_date_day,
+        "cvc": this.cvc,
         "redirect_url": "https://develop-property.lokl.life/payment/successful",
-        "reference": "64a6b2e7a604a10b8f557ca8_632511ecd407318f2592f945_9852",
-        "amount": "11200000",
+        "reference": this.reference_pay,
+        "amount": '1120000',
         "type": "1",
         "info_subcripcion": [
             {
