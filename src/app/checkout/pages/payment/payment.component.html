@@ -110,7 +110,7 @@
             <label for="exampleInputEmail1" class="form-label text-muted">Tipo de persona</label>
             <div class="container-cuotas">
               <app-custom-select [data]="opcionesSelectTypePerson" [justIzquierda]="true"
-                (onOpcionSeleccionada)="changeDues($event)" ($selectSelected)="$selectTypePerson"
+                (onOpcionSeleccionada)="changeTypePerson($event)" ($selectSelected)="$selectTypePerson"
                 [sensibleAToquesFuera]="true"></app-custom-select>
             </div>
           </div>

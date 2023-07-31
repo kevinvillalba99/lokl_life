@@ -31,15 +31,7 @@ export class PaymentComponent implements OnInit {
 
   tarjetaActiva: boolean = false;
 
-  @ViewChild('_inputCard') _inputCard: ElementRef = new ElementRef(
-    HTMLInputElement
-  );
-  @ViewChild('_inputDueDate') _inputDueDate: ElementRef = new ElementRef(
-    HTMLInputElement
-  );
-  @ViewChild('_inputCvc') _inputCvc: ElementRef = new ElementRef(
-    HTMLInputElement
-  );
+
   subSelectTypeDocument: Subject<boolean> = new Subject<boolean>();
   $selectTypeDocument: Observable<boolean> =
     this.subSelectTypeDocument.asObservable();
@@ -75,8 +67,8 @@ export class PaymentComponent implements OnInit {
   ];
   public opcionesSelectTypePerson: CustomSelectElement[] = [
     { name: 'Seleccione su tipo de persona', value: '', selected: false },
-    { name: 'Persona natural', value: 1, selected: false },
-    { name: 'Persona juridica', value: 2, selected: false },
+    { name: 'Persona natural', value: 0, selected: false },
+    { name: 'Persona juridica', value: 1, selected: false },
   ];
   public opcionesSelectTypeDocument: CustomSelectElement[] = [
     { name: 'Seleccione su tipo de documento', value: '', selected: false },
@@ -364,8 +356,6 @@ export class PaymentComponent implements OnInit {
     this.validatingTransaction = true;
     setTimeout(() => (this.validatingTransaction = false), 30000);
 
-    console.log(this.body.value);
-
     const type_document = this.body.value.document_type.toString();
     const token = localStorage.getItem('token');
     if (!token) return;
@@ -375,47 +365,61 @@ export class PaymentComponent implements OnInit {
       '_632511ecd407318f2592f945_' +
       Math.random().toString().slice(-5, -1);
 
-    const body = {
-      name: this.body.get('first_name')?.value,
-      address: this.body.value.address,
-      region: this.selectedState, //TODO: Enlazar regiones y ciudad de los selects
-      city: this.selectedcity,
-      type_client: this.body.get('type_person')?.value, //TODO: enlazar tipos de persona a un valor
-      type_document: type_document,
-      number_document: this.body.value.document_number,
-      number: this.body.value.phone,
-      email: this.body.get('emailAdress')?.value,
-      numberCard: this.numberCard,
-      exp_month: this.exp_month,
-      exp_year: this.exp_year,
-      cvc: this.cvc,
-      redirect_url: 'https://develop-property.lokl.life/payment/successful',
-      reference: reference,
-      amount: this.inversionValue,
-      type: this.type,
-      info_subcripcion: [
-        {
-          owner: '64a6b2e7a604a10b8f557ca8',
-          project: '632511ecd407318f2592f945',
-          inversion: this.inversionValue,
-          impuestos: this.taxes ? this.taxes : '',
-          meses: this.formInversion.value.dues,
-          valor_mes: this.subtotal,
-        },
-      ],
-      installments: this.formInversion.value.dues,
-      prepayment: 0,
-    };
+    let body;
 
-    console.log(body);
-    this.apiservice.post(`transaction`, body).subscribe(
-      (res: any) => {
-        console.log(res);
-      },
-      (error: any) => {
-        console.log('error en enviar data', error);
-      }
-    );
+    if( this.tarjetaActiva ){
+      body = {
+        name: this.body.get('first_name')?.value,
+        address: this.body.value.address,
+        region: this.selectedState,
+        city: this.selectedcity,
+        type_client: this.body.get('type_person')?.value.toString(),
+        type_document: type_document,
+        number_document: this.body.value.document_number,
+        number: this.body.value.phone,
+        email: this.body.get('emailAdress')?.value,
+        numberCard: this.numberCard,
+        exp_month: this.exp_month,
+        exp_year: this.exp_year,
+        cvc: this.cvc,
+        redirect_url: 'https://develop-property.lokl.life/payment/successful',
+        reference: reference,
+        amount: this.inversionValue.toString(),
+        type: this.type.toString,
+        info_subcripcion: [
+          {
+            owner: '64a6b2e7a604a10b8f557ca8',
+            project: '632511ecd407318f2592f945',
+            inversion: this.inversionValue.toString(),
+            impuestos: this.taxes ? this.taxes.toString() : '',
+            meses: this.formInversion.value.dues,
+            valor_mes: this.subtotal.toString(),
+          },
+        ],
+        installments: this.formInversion.value.dues,
+        prepayment: "0",
+      };
+
+      console.log(body);
+
+      this.apiservice.post(`transaction`, body).subscribe(
+        (res: any) => {
+          console.log(res);
+        },
+        (error: any) => {
+          console.log('error en enviar data', error);
+        }
+      );
+    }else{
+
+      this.sendDataInvestment();
+
+    }
+
+
+
+
+
   }
 
   changeTypePerson(event: any) {
