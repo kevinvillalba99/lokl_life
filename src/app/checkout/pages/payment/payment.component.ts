@@ -231,6 +231,8 @@ export class PaymentComponent implements OnInit {
       rut: ['', []],
     });
 
+
+
     if (localStorage.getItem('type')) {
 
       if (localStorage.getItem('type') == '1'){
@@ -413,7 +415,7 @@ export class PaymentComponent implements OnInit {
         redirect_url: 'https://develop-property.lokl.life/payment/successful',
         reference: reference,
         amount: this.inversionValue.toString(),
-        type: this.type.toString,
+        type: this.type.toString(),
         info_subcripcion: [
           {
             owner: '64a6b2e7a604a10b8f557ca8',
@@ -427,6 +429,8 @@ export class PaymentComponent implements OnInit {
         installments: this.formInversion.value.dues,
         prepayment: "0",
       };
+
+      console.log(body);
 
       this.apiservice.post(`transaction`, body).subscribe(
         (res: any) => {
