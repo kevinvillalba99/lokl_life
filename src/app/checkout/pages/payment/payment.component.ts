@@ -32,7 +32,6 @@ export class PaymentComponent implements OnInit {
 
   tarjetaActiva: boolean = false;
 
-
   subSelectTypeDocument: Subject<boolean> = new Subject<boolean>();
   $selectTypeDocument: Observable<boolean> =
     this.subSelectTypeDocument.asObservable();
@@ -109,7 +108,7 @@ export class PaymentComponent implements OnInit {
 
   inputCard(event: any) {
     if (event.inputType == 'deleteContentBackward') {
-      this.body.patchValue({card_number: ''});
+      this.body.patchValue({ card_number: '' });
       return;
     }
 
@@ -133,12 +132,12 @@ export class PaymentComponent implements OnInit {
     }
 
     this.numberCard = event.target.value;
-    this.body.patchValue({card_number: this.numberCard})
+    this.body.patchValue({ card_number: this.numberCard });
   }
 
   inputDueDate(event: any) {
     if (event.inputType == 'deleteContentBackward') {
-      this.body.patchValue({card_due_date: ''})
+      this.body.patchValue({ card_due_date: '' });
       return;
     }
 
@@ -171,12 +170,12 @@ export class PaymentComponent implements OnInit {
     const date = event.target.value.split('/');
     this.exp_month = date[0];
     this.exp_year = date[1];
-    this.body.patchValue({card_due_date: event.target.value})
+    this.body.patchValue({ card_due_date: event.target.value });
   }
 
   inputCvc(event: any) {
     if (event.inputType == 'deleteContentBackward') {
-      this.body.patchValue({card_cvc: ''})
+      this.body.patchValue({ card_cvc: '' });
       return;
     }
 
@@ -193,8 +192,7 @@ export class PaymentComponent implements OnInit {
       }
     }
     this.cvc = event.target.value;
-    this.body.patchValue({card_cvc: this.cvc})
-
+    this.body.patchValue({ card_cvc: this.cvc });
   }
 
   // ------------------ //
@@ -206,7 +204,6 @@ export class PaymentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
     this.body = this.fb.group({
       first_name: ['', [Validators.required]],
       address: ['', [Validators.required]],
@@ -231,29 +228,40 @@ export class PaymentComponent implements OnInit {
       rut: ['', []],
     });
 
-
-
     if (localStorage.getItem('type')) {
-
-      if (localStorage.getItem('type') == '1'){
-        this.tarjetaActiva = true
-        this.body.get('card_number')?.setValidators([Validators.required, Validators.minLength(19)])
-        this.body.get('card_due_date')?.setValidators([Validators.required, Validators.minLength(5), monthDueValidator()])
-        this.body.get('card_cvc')?.setValidators([Validators.required, Validators.minLength(3)])
-      }
-      else{
+      if (localStorage.getItem('type') == '1') {
+        this.tarjetaActiva = true;
+        this.body
+          .get('card_number')
+          ?.setValidators([Validators.required, Validators.minLength(19)]);
+        this.body
+          .get('card_due_date')
+          ?.setValidators([
+            Validators.required,
+            Validators.minLength(5),
+            monthDueValidator(),
+          ]);
+        this.body
+          .get('card_cvc')
+          ?.setValidators([Validators.required, Validators.minLength(3)]);
+      } else {
         this.tarjetaActiva = false;
-        this.body.get('selectedStateBank')?.setValidators([Validators.required])
+        this.body
+          .get('selectedStateBank')
+          ?.setValidators([Validators.required]);
       }
-
     } else {
       //No hay tipo en el local Storage
     }
 
-    this.formInversion.patchValue({value: localStorage.getItem('investment_total')})
-    this.formInversion.patchValue({dues: localStorage.getItem('months')})
-    this.formInversion.patchValue({payment: localStorage.getItem('type')})
-    this.formInversion.patchValue({acceptTerms: localStorage.getItem('true')})
+    this.formInversion.patchValue({
+      value: localStorage.getItem('investment_total'),
+    });
+    this.formInversion.patchValue({ dues: localStorage.getItem('months') });
+    this.formInversion.patchValue({ payment: localStorage.getItem('type') });
+    this.formInversion.patchValue({
+      acceptTerms: localStorage.getItem('true'),
+    });
 
     this.firstNameControl = this.body.get('first_name') as FormControl;
     this.address = this.body.get('address') as FormControl;
@@ -276,7 +284,6 @@ export class PaymentComponent implements OnInit {
   }
 
   public sendDataInvestment() {
-
     const token = localStorage.getItem('token');
     if (!token) return;
     const payload: any = jwt_decode.default(token);
@@ -335,10 +342,10 @@ export class PaymentComponent implements OnInit {
   }
 
   redirectPse(id: string) {
-    const apiUrl = `https://sandbox.wompi.co/v1/transactions/${id}`;
+    const apiUrl = `https://production.wompi.co/v1/transactions/${id}`;
 
     // token Bearer
-    const bearerToken = 'pub_test_srHBcxqYISn8FsYZLuSWeOmhU679yCV5';
+    const bearerToken = 'pub_prod_zRN1PD4eVHzk7UvTCnBWL0hMQIHITjnn';
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -397,7 +404,7 @@ export class PaymentComponent implements OnInit {
 
     let body;
 
-    if( this.tarjetaActiva ){
+    if (this.tarjetaActiva) {
       body = {
         name: this.body.get('first_name')?.value,
         address: this.body.value.address,
@@ -427,7 +434,7 @@ export class PaymentComponent implements OnInit {
           },
         ],
         installments: this.formInversion.value.dues,
-        prepayment: "0",
+        prepayment: '0',
       };
 
       console.log(body);
@@ -440,16 +447,9 @@ export class PaymentComponent implements OnInit {
           console.log('error en enviar data', error);
         }
       );
-    }else{
-
+    } else {
       this.sendDataInvestment();
-
     }
-
-
-
-
-
   }
 
   changeTypePerson(event: any) {
@@ -497,10 +497,10 @@ export class PaymentComponent implements OnInit {
 
   fetchDocumentsTypes() {
     this.opcionesSelect = [];
-    const apiUrl = 'https://sandbox.wompi.co/v1/pse/financial_institutions';
+    const apiUrl = 'https://production.wompi.co/v1/pse/financial_institutions';
 
     // token Bearer
-    const bearerToken = 'pub_test_srHBcxqYISn8FsYZLuSWeOmhU679yCV5';
+    const bearerToken = 'pub_prod_zRN1PD4eVHzk7UvTCnBWL0hMQIHITjnn';
 
     const httpOptions = {
       headers: new HttpHeaders({
