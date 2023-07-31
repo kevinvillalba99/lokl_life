@@ -18,6 +18,7 @@ import { Observable, Subject } from 'rxjs';
 import { ApiService } from 'src/app/services/api.service';
 import * as jwt_decode from 'jwt-decode';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { monthDueValidator } from '../../validators/monthDue.validator';
 
 @Component({
   selector: 'app-payment',
@@ -41,7 +42,7 @@ export class PaymentComponent implements OnInit {
     this.subSelectTypeDocument.asObservable();
 
   public formInversion: FormGroup = this.fb.group({
-    value: [110000140, [Validators.min(11000000)]],
+    value: [110000140, []],
     dues: [1, [Validators.required]],
     payment: ['', [Validators.required]],
     acceptTerms: [false, [Validators.requiredTrue]],
@@ -79,7 +80,6 @@ export class PaymentComponent implements OnInit {
   selectedCountry: string = 'CO';
   selectedState: string = '';
   nameCity: string = '';
-  selectedStateBank = new FormControl();
   selectedcity: any;
 
   body!: FormGroup;
@@ -109,6 +109,7 @@ export class PaymentComponent implements OnInit {
 
   inputCard(event: any) {
     if (event.inputType == 'deleteContentBackward') {
+      this.body.patchValue({card_number: ''});
       return;
     }
 
@@ -132,11 +133,12 @@ export class PaymentComponent implements OnInit {
     }
 
     this.numberCard = event.target.value;
-    console.log(this.numberCard);
+    this.body.patchValue({card_number: this.numberCard})
   }
 
   inputDueDate(event: any) {
     if (event.inputType == 'deleteContentBackward') {
+      this.body.patchValue({card_due_date: ''})
       return;
     }
 
@@ -169,10 +171,12 @@ export class PaymentComponent implements OnInit {
     const date = event.target.value.split('/');
     this.exp_month = date[0];
     this.exp_year = date[1];
+    this.body.patchValue({card_due_date: event.target.value})
   }
 
   inputCvc(event: any) {
     if (event.inputType == 'deleteContentBackward') {
+      this.body.patchValue({card_cvc: ''})
       return;
     }
 
@@ -189,6 +193,8 @@ export class PaymentComponent implements OnInit {
       }
     }
     this.cvc = event.target.value;
+    this.body.patchValue({card_cvc: this.cvc})
+
   }
 
   // ------------------ //
@@ -200,21 +206,20 @@ export class PaymentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (localStorage.getItem('type')) {
-      if (localStorage.getItem('type')! == '0') {
-      } else {
-        this.tarjetaActiva = localStorage.getItem('type')! == '1';
-      }
-    } else {
-      //No hay tipo en el local Storage
-    }
 
     this.body = this.fb.group({
-      first_name: ['', Validators.required],
-      address: ['', Validators.required],
+      first_name: ['', [Validators.required]],
+      address: ['', [Validators.required]],
       document_type: ['', Validators.required],
       document_number: ['', Validators.required],
-      phone: ['', Validators.required],
+      phone: ['', [Validators.required]],
+
+      card_number: [''],
+      card_due_date: [''],
+      card_cvc: [''],
+
+      selectedStateBank: [''],
+
       emailAdress: [
         '',
         [
@@ -222,9 +227,31 @@ export class PaymentComponent implements OnInit {
           Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
         ],
       ],
-      type_person: [''],
-      rut: [''],
+      type_person: ['', Validators.required],
+      rut: ['', []],
     });
+
+    if (localStorage.getItem('type')) {
+
+      if (localStorage.getItem('type') == '1'){
+        this.tarjetaActiva = true
+        this.body.get('card_number')?.setValidators([Validators.required, Validators.minLength(19)])
+        this.body.get('card_due_date')?.setValidators([Validators.required, Validators.minLength(5), monthDueValidator()])
+        this.body.get('card_cvc')?.setValidators([Validators.required, Validators.minLength(3)])
+      }
+      else{
+        this.tarjetaActiva = false;
+        this.body.get('selectedStateBank')?.setValidators([Validators.required])
+      }
+
+    } else {
+      //No hay tipo en el local Storage
+    }
+
+    this.formInversion.patchValue({value: localStorage.getItem('investment_total')})
+    this.formInversion.patchValue({dues: localStorage.getItem('months')})
+    this.formInversion.patchValue({payment: localStorage.getItem('type')})
+    this.formInversion.patchValue({acceptTerms: localStorage.getItem('true')})
 
     this.firstNameControl = this.body.get('first_name') as FormControl;
     this.address = this.body.get('address') as FormControl;
@@ -247,7 +274,6 @@ export class PaymentComponent implements OnInit {
   }
 
   public sendDataInvestment() {
-    console.log(this.body.value);
 
     const token = localStorage.getItem('token');
     if (!token) return;
@@ -258,34 +284,35 @@ export class PaymentComponent implements OnInit {
       Math.random().toString().slice(-5, -1);
 
     let body = {
-      bank_code: this?.selectedStateBank.value,
+      bank_code: this?.body.get('selectedStateBank')?.value,
       name: this.body.get('first_name')?.value,
       address: this.body.get('address')?.value,
       region: this?.selectedState,
       city: this?.nameCity,
-      type_client: this.body.get('type_person')?.value,
-      type_document: this.body.get('document_type')?.value,
+      type_client: this.body.get('type_person')?.value.toString(),
+      type_document: this.body.get('document_type')?.value.toString(),
       number_document: this.body.get('document_number')?.value,
       number: this.body.get('phone')?.value,
       email: this.body.get('emailAdress')?.value,
       redirect_url: 'https://lokl.life/payment/successful',
       reference: reference,
-      amount: this.inversionValue,
-      type: this.type,
+      amount: this.inversionValue.toString(),
+      type: this.type.toString(),
       info_subcripcion: [
         {
           owner: '646fcef8c158685da367ec02',
           project: '63261a94c8011a8a836fda23',
-          inversion: this.inversionValue,
-          impuestos: this.taxes,
+          inversion: this.inversionValue.toString(),
+          impuestos: this.taxes.toString(),
           meses: this.formInversion.value.dues,
-          valor_mes: this.subtotal,
+          valor_mes: this.subtotal.toString(),
         },
       ],
       installments: '6',
-      prepayment: 0,
+      prepayment: '0',
     };
 
+    console.log(body);
     this.apiservice.post(`transaction`, body).subscribe(
       (res: any) => {
         console.log(res);
@@ -350,6 +377,7 @@ export class PaymentComponent implements OnInit {
 
   changeDues(event: any) {
     this.body.patchValue({ document_type: event.value });
+    console.log(this.body);
   }
 
   submit() {
@@ -399,8 +427,6 @@ export class PaymentComponent implements OnInit {
         installments: this.formInversion.value.dues,
         prepayment: "0",
       };
-
-      console.log(body);
 
       this.apiservice.post(`transaction`, body).subscribe(
         (res: any) => {

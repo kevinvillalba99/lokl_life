@@ -38,7 +38,7 @@
             <div class="container-cuotas">
 
               <select class="form-select form-select-lg mb-3 rounded-0 mr-0" aria-label=".form-select-lg example"
-                [formControl]="selectedStateBank">
+                formControlName="selectedStateBank">
                 <option value="">Seleccione un banco</option>
                 <option *ngFor="let state of opcionesSelect" [ngValue]="state?.value" style="box-shadow: 0">
                   {{ state.name }}
@@ -229,7 +229,7 @@
 
           <button mat-button type="button" class="btn bg-black rounded rounded-5 w-100 text-white pb-1 pt-1 mt-3"
             style="height: 40px" (click)="submit()"
-            [disabled]="body.invalid || numberCard=='' || exp_month=='' || exp_year=='' || cvc=='' ">
+            [disabled]="body.invalid">
             Invertir
           </button>
         </div>
