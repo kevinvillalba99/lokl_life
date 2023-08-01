@@ -41,15 +41,15 @@ export class InversionComponent implements OnInit, OnDestroy {
   public resolucion_movil: boolean = false;
   public widthActual: number = 0;
   public cardsCount: number = 2;
-  public currentProject: string = "Nido de Agua"
-  public currentStage: string = 'Etapa 1'
+  public currentProject: string = 'Nido de Agua';
+  public currentStage: string = 'Etapa 1';
   public opcionesSelect: CustomSelectElement[] = [
     { name: '3 meses', value: 3, selected: true },
     { name: '6 meses', value: 6, selected: false },
     { name: '9 meses', value: 9, selected: false },
   ];
   public formInversion: FormGroup = this.fb.group({
-    value: ['1.120.000', ],
+    value: ['1.140.000'],
     dues: [1, [Validators.required]],
     payment: ['', [Validators.required]],
     acceptTerms: [false, [Validators.requiredTrue]],
@@ -61,8 +61,7 @@ export class InversionComponent implements OnInit, OnDestroy {
     this.subSelectSelected.asObservable();
 
   public subNumDeus: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-  public $numDeus: Observable<number> =
-    this.subNumDeus.asObservable();
+  public $numDeus: Observable<number> = this.subNumDeus.asObservable();
 
   public inputActivated: boolean = false;
 
@@ -111,14 +110,14 @@ export class InversionComponent implements OnInit, OnDestroy {
     const newWidth = (event.target as Window).innerWidth;
 
     if (newWidth < 992) {
-      if( !this.resolucion_movil ) this.calcularMontos()
+      if (!this.resolucion_movil) this.calcularMontos();
       this.resolucion_movil = true;
     }
 
     if (newWidth > 992) {
-      if( !this.resolucion_movil ) this.calcularMontos()
+      if (!this.resolucion_movil) this.calcularMontos();
       this.resolucion_movil = false;
-      this.step1 = true
+      this.step1 = true;
       this.step2 = false;
     }
 
@@ -132,19 +131,14 @@ export class InversionComponent implements OnInit, OnDestroy {
     if (widthActual < 720) this.cardsCount = 1;
   }
 
-
-
   ngOnInit(): void {
-
-
-
     this.inputValue({ target: { value: 0 } });
     this.calcularMontos();
     this.pagoUnicoSelected = true;
 
-
-    this.step2 = JSON.parse(localStorage.getItem('step_2') ?? '0') == '1' ? true : false;
-    if( this.step2 ) this.step1 = false;
+    this.step2 =
+      JSON.parse(localStorage.getItem('step_2') ?? '0') == '1' ? true : false;
+    if (this.step2) this.step1 = false;
 
     const initialWidth = window.innerWidth;
     const initialHeight = window.innerHeight;
@@ -211,7 +205,6 @@ export class InversionComponent implements OnInit, OnDestroy {
   nextStep(event: number) {
     if (!this.formInversion.controls['value'].valid) return;
 
-
     if (this.currentUnits < 100) {
       this.alertaUnits = true;
       setTimeout(() => {
@@ -219,7 +212,7 @@ export class InversionComponent implements OnInit, OnDestroy {
       }, 5000);
       return;
     }
-    localStorage.setItem('step_2', '1')
+    localStorage.setItem('step_2', '1');
 
     this.step1 = false;
     this.step2 = true;
@@ -260,7 +253,6 @@ export class InversionComponent implements OnInit, OnDestroy {
       this.paymentCards[0].selected = true;
       this.paymentCards[1].selected = false;
       this.formInversion.patchValue({ payment: 'visa' });
-
     }
 
     if (card == 'pse') {
@@ -283,8 +275,6 @@ export class InversionComponent implements OnInit, OnDestroy {
   }
 
   verificarSelected() {
-
-
     if (this.formInversion.value.dues == 1) {
       this.carousel.page = 0;
       this.pagoUnicoSelected = true;
@@ -292,12 +282,11 @@ export class InversionComponent implements OnInit, OnDestroy {
     }
 
     if (this.formInversion.value.dues > 1) {
-      this.subNumDeus.next( this.getIndexByCards(this.formInversion.value.dues) )
+      this.subNumDeus.next(this.getIndexByCards(this.formInversion.value.dues));
       this.carousel.page = this.getIndexByCards(this.formInversion.value.dues);
       this.pagoUnicoSelected = false;
       this.subSelectSelected.next(true);
     }
-
 
     for (let i = 0; i < this.opcionesSelect.length; i++) {
       this.opcionesSelect[i].selected = false;
@@ -349,8 +338,7 @@ export class InversionComponent implements OnInit, OnDestroy {
     const payment = this.formInversion.value.payment == 'pse' ? '0' : '1';
     const payload: any = jwt_decode.default(token);
     const reference =
-      '_632511ecd407318f2592f945_' +
-      Math.random().toString().slice(-5, -1);
+      '_632511ecd407318f2592f945_' + Math.random().toString().slice(-5, -1);
 
     localStorage.setItem('reference_pay', reference.toString());
     localStorage.setItem('units', this.currentUnits.toString()); // Units totales
@@ -365,13 +353,12 @@ export class InversionComponent implements OnInit, OnDestroy {
   }
 
   proximaTarjeta() {
-    if (this.resolucion_movil){
-      if(this.carousel.page == 0){
+    if (this.resolucion_movil) {
+      if (this.carousel.page == 0) {
         this.carousel.page++;
       }
       return;
     }
-
 
     if (this.carousel.page < this.cardData.length - 1) this.carousel.page++;
     this.formInversion.patchValue({
@@ -382,8 +369,8 @@ export class InversionComponent implements OnInit, OnDestroy {
   }
 
   anteriorTarjeta() {
-    if (this.resolucion_movil){
-      if(this.carousel.page == 1){
+    if (this.resolucion_movil) {
+      if (this.carousel.page == 1) {
         this.carousel.page--;
       }
       return;
@@ -397,11 +384,11 @@ export class InversionComponent implements OnInit, OnDestroy {
     this.calcularMontos();
   }
 
-  cardInit(){
+  cardInit() {
     this.step1 = true;
     this.step2 = false;
 
-    localStorage.setItem('step_2', "0")
+    localStorage.setItem('step_2', '0');
   }
 
   inputFocus() {
