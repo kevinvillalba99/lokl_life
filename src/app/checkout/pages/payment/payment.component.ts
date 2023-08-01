@@ -188,7 +188,14 @@ export class PaymentComponent implements OnInit {
     private apiservice: ApiService,
   ) {}
 
+  @HostListener('window:popstate', ['$event'])
+  onPopState(event: any) {
+    console.log('El usuario hizo clic en el botón de retroceso del navegador.');
+    window.location.replace('/checkout/confirm-payment');
+  }
+
   ngOnInit(): void {
+    window.addEventListener('popstate', this.onPopState.bind(this));
 
     if(localStorage.getItem('type')){
 
@@ -236,7 +243,11 @@ export class PaymentComponent implements OnInit {
 
     this.patchForm();
     this.fetchDocumentsTypes();
-  }
+  };
+
+  ngOnDestroy(): void {
+    window.removeEventListener('popstate', this.onPopState.bind(this));
+  };
 
   // ----------------------- //
 
