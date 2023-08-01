@@ -152,12 +152,11 @@ export class AutentificacionComponent implements OnInit {
     if (this.token) {
       localStorage.setItem('token', `${this.token}`);
     }
-
-    this.patchForm();
   }
 
   ngAfterViewInit(): void {
     this.ValidateParams();
+    this.patchForm();
   }
 
   public changeStep() {
