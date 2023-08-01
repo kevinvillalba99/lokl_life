@@ -15,7 +15,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Carousel } from 'primeng/carousel';
-import { BehaviorSubject, Observable, Subject, delay, interval } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import * as jwt_decode from 'jwt-decode';
 
 import { ApiService } from 'src/app/services/api.service';
@@ -24,6 +24,7 @@ import { CustomSelectElement } from '../../interfaces/customSelectElement.interf
 import { CardDataElement } from '../../interfaces/cardDataElement.interface';
 import { environment } from 'src/environments/environment';
 import { RestCountriesApiService } from 'src/app/services/rest-countries-api.service';
+import { customMinValidator } from '../../validators/customMin.validator';
 
 @Component({
   selector: 'app-inversion',
@@ -48,7 +49,7 @@ export class InversionComponent implements OnInit, OnDestroy {
     { name: '9 meses', value: 9, selected: false },
   ];
   public formInversion: FormGroup = this.fb.group({
-    value: ['1.120.000', []],
+    value: ['1.120.000', ],
     dues: [1, [Validators.required]],
     payment: ['', [Validators.required]],
     acceptTerms: [false, [Validators.requiredTrue]],
@@ -343,12 +344,11 @@ export class InversionComponent implements OnInit, OnDestroy {
 
     const token = localStorage.getItem('token');
 
-    //if (!token) return;
+    if (!token) return;
 
     const payment = this.formInversion.value.payment == 'pse' ? '0' : '1';
-    const payload: any = "1111"//jwt_decode.default(token);
+    const payload: any = jwt_decode.default(token);
     const reference =
-      payload.id +
       '_632511ecd407318f2592f945_' +
       Math.random().toString().slice(-5, -1);
 

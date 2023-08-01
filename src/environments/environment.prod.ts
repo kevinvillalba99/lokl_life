@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  url: 'https://develop.api.lokl.life/api/v1/',
+  url: 'https://api.lokl.life/api/v1/',
   unit_value: 112000,
   owner_wompi: '646fcef8c158685da367ec02',
   project_wompi: '63261a94c8011a8a836fda23',

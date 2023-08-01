@@ -1,4 +1,10 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 
 import {
   FormBuilder,
@@ -12,6 +18,7 @@ import { Observable, Subject } from 'rxjs';
 import { ApiService } from 'src/app/services/api.service';
 import * as jwt_decode from 'jwt-decode';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { monthDueValidator } from '../../validators/monthDue.validator';
 
 @Component({
   selector: 'app-payment',
@@ -25,17 +32,16 @@ export class PaymentComponent implements OnInit {
 
   tarjetaActiva: boolean = false;
 
-  @ViewChild('_inputCard') _inputCard: ElementRef = new ElementRef(HTMLInputElement)
-  @ViewChild('_inputDueDate')   _inputDueDate: ElementRef = new ElementRef(HTMLInputElement)
-  @ViewChild('_inputCvc')   _inputCvc: ElementRef = new ElementRef(HTMLInputElement)
   subSelectTypeDocument: Subject<boolean> = new Subject<boolean>();
-  $selectTypeDocument: Observable<boolean> = this.subSelectTypeDocument.asObservable();
+  $selectTypeDocument: Observable<boolean> =
+    this.subSelectTypeDocument.asObservable();
 
   subSelectTypePerson: Subject<boolean> = new Subject<boolean>();
-  $selectTypePerson: Observable<boolean> = this.subSelectTypeDocument.asObservable();
+  $selectTypePerson: Observable<boolean> =
+    this.subSelectTypeDocument.asObservable();
 
   public formInversion: FormGroup = this.fb.group({
-    value: [110000140, [Validators.min(11000000)]],
+    value: [110000140, []],
     dues: [1, [Validators.required]],
     payment: ['', [Validators.required]],
     acceptTerms: [false, [Validators.requiredTrue]],
@@ -61,8 +67,8 @@ export class PaymentComponent implements OnInit {
   ];
   public opcionesSelectTypePerson: CustomSelectElement[] = [
     { name: 'Seleccione su tipo de persona', value: '', selected: false },
-    { name: 'Persona natural', value: 1, selected: false },
-    { name: 'Persona juridica', value: 2, selected: false },
+    { name: 'Persona natural', value: 0, selected: false },
+    { name: 'Persona juridica', value: 1, selected: false },
   ];
   public opcionesSelectTypeDocument: CustomSelectElement[] = [
     { name: 'Seleccione su tipo de documento', value: '', selected: false },
@@ -73,7 +79,6 @@ export class PaymentComponent implements OnInit {
   selectedCountry: string = 'CO';
   selectedState: string = '';
   nameCity: string = '';
-  selectedStateBank = new FormControl();
   selectedcity: any;
 
   body!: FormGroup;
@@ -96,88 +101,98 @@ export class PaymentComponent implements OnInit {
     '=1': '1 mes',
     other: '# meses',
   };
+  numberCard: any = '';
+  exp_month: any = '';
+  exp_year: any = '';
+  cvc: any = '';
 
-
-  inputCard(event: any){
-    if(event.inputType == "deleteContentBackward"){
-      return
+  inputCard(event: any) {
+    if (event.inputType == 'deleteContentBackward') {
+      this.body.patchValue({ card_number: '' });
+      return;
     }
 
-    if(/[^0-9]/g.test(event.data)){
-
-      if(event.target.value.length == 1){
-        event.target.value = ''
-        return
+    if (/[^0-9]/g.test(event.data)) {
+      if (event.target.value.length == 1) {
+        event.target.value = '';
+        return;
       }
 
       for (let i = 0; i < event.target.value.length; i++) {
-        if( /[^0-9]/g.test(event.target.value[i]) ){
-          event.target.value = event.target.value.replace(/[^0-9\s]/g ,'')
+        if (/[^0-9]/g.test(event.target.value[i])) {
+          event.target.value = event.target.value.replace(/[^0-9\s]/g, '');
         }
       }
-
     }
 
-    if(event.target.value.length % 5 == 0){
-      const arrayN = event.target.value.split('')
-      arrayN.splice( arrayN.length - 1, 0, " ")
-      event.target.value = arrayN.join('')
+    if (event.target.value.length % 5 == 0) {
+      const arrayN = event.target.value.split('');
+      arrayN.splice(arrayN.length - 1, 0, ' ');
+      event.target.value = arrayN.join('');
     }
 
-
+    this.numberCard = event.target.value;
+    this.body.patchValue({ card_number: this.numberCard });
   }
 
-  inputDueDate(event: any){
-    if(event.inputType == "deleteContentBackward"){
-      return
+  inputDueDate(event: any) {
+    if (event.inputType == 'deleteContentBackward') {
+      this.body.patchValue({ card_due_date: '' });
+      return;
     }
 
-    if(/[^0-9]/g.test(event.data)){
+    if (/[^0-9]/g.test(event.data)) {
+      if (
+        event.target.value.length == 3 &&
+        event.data == '/' &&
+        event.target.value[-1] == '/'
+      )
+        return;
 
-      if(event.target.value.length == 3
-          && event.data ==  '/'
-          && event.target.value[-1] == '/'
-          ) return;
-
-      if(event.target.value.length == 1){
-        event.target.value = ''
-        return
+      if (event.target.value.length == 1) {
+        event.target.value = '';
+        return;
       }
 
       for (let i = 0; i < event.target.value.length; i++) {
-        if( /[^0-9]/g.test(event.target.value[i]) ){
-          event.target.value = event.target.value.replace(/[^0-9\s]/g ,'')
+        if (/[^0-9]/g.test(event.target.value[i])) {
+          event.target.value = event.target.value.replace(/[^0-9\s]/g, '');
         }
       }
-
     }
 
-    if(event.target.value.length == 3){
-      const arrayN = event.target.value.split('')
-      arrayN.splice( arrayN.length - 1, 0, "/")
-      event.target.value = arrayN.join('')
+    if (event.target.value.length == 3) {
+      const arrayN = event.target.value.split('');
+      arrayN.splice(arrayN.length - 1, 0, '/');
+      event.target.value = arrayN.join('');
     }
+
+    const date = event.target.value.split('/');
+    this.exp_month = date[0];
+    this.exp_year = date[1];
+    this.body.patchValue({ card_due_date: event.target.value });
   }
 
-  inputCvc(event: any){
-    if(event.inputType == "deleteContentBackward"){
-      return
+  inputCvc(event: any) {
+    if (event.inputType == 'deleteContentBackward') {
+      this.body.patchValue({ card_cvc: '' });
+      return;
     }
 
-    if(/[^0-9]/g.test(event.data)){
-
-      if(event.target.value.length == 1){
-        event.target.value = ''
-        return
+    if (/[^0-9]/g.test(event.data)) {
+      if (event.target.value.length == 1) {
+        event.target.value = '';
+        return;
       }
 
       for (let i = 0; i < event.target.value.length; i++) {
-        if( /[^0-9]/g.test(event.target.value[i]) ){
-          event.target.value = event.target.value.replace(/[^0-9\s]/g ,'')
+        if (/[^0-9]/g.test(event.target.value[i])) {
+          event.target.value = event.target.value.replace(/[^0-9\s]/g, '');
         }
       }
-
     }
+    this.cvc = event.target.value;
+    this.body.patchValue({ card_cvc: this.cvc });
   }
 
   // ------------------ //
@@ -185,42 +200,32 @@ export class PaymentComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private apiservice: ApiService,
+    private apiservice: ApiService
   ) {}
 
-  @HostListener('window:popstate', ['$event'])
-  onPopState(event: any) {
-    console.log('El usuario hizo clic en el botón de retroceso del navegador.');
-    window.location.replace('/checkout/confirm-payment');
-  }
-
   ngOnInit(): void {
-    window.addEventListener('popstate', this.onPopState.bind(this));
-
-    if(localStorage.getItem('type')){
-
-      if(localStorage.getItem('type')! == '0' ){
-
+    if (localStorage.getItem('type')) {
+      if (localStorage.getItem('type')! == '0') {
+      } else {
+        this.tarjetaActiva = localStorage.getItem('type')! == '1';
       }
-      else{
-        this.tarjetaActiva = localStorage.getItem('type')! == '1'
-      }
-
-
-
-
-    }
-    else{
+    } else {
       //No hay tipo en el local Storage
     }
 
-
     this.body = this.fb.group({
-      first_name: ['', Validators.required],
-      address: ['', Validators.required],
+      first_name: ['', [Validators.required]],
+      address: ['', [Validators.required]],
       document_type: ['', Validators.required],
       document_number: ['', Validators.required],
-      phone: ['', Validators.required],
+      phone: ['', [Validators.required]],
+
+      card_number: [''],
+      card_due_date: [''],
+      card_cvc: [''],
+
+      selectedStateBank: [''],
+
       emailAdress: [
         '',
         [
@@ -229,7 +234,42 @@ export class PaymentComponent implements OnInit {
         ],
       ],
       type_person: ['', Validators.required],
-      rut: [''],
+      rut: ['', []],
+    });
+
+    if (localStorage.getItem('type')) {
+      if (localStorage.getItem('type') == '1') {
+        this.tarjetaActiva = true;
+        this.body
+          .get('card_number')
+          ?.setValidators([Validators.required, Validators.minLength(19)]);
+        this.body
+          .get('card_due_date')
+          ?.setValidators([
+            Validators.required,
+            Validators.minLength(5),
+            monthDueValidator(),
+          ]);
+        this.body
+          .get('card_cvc')
+          ?.setValidators([Validators.required, Validators.minLength(3)]);
+      } else {
+        this.tarjetaActiva = false;
+        this.body
+          .get('selectedStateBank')
+          ?.setValidators([Validators.required]);
+      }
+    } else {
+      //No hay tipo en el local Storage
+    }
+
+    this.formInversion.patchValue({
+      value: localStorage.getItem('investment_total'),
+    });
+    this.formInversion.patchValue({ dues: localStorage.getItem('months') });
+    this.formInversion.patchValue({ payment: localStorage.getItem('type') });
+    this.formInversion.patchValue({
+      acceptTerms: localStorage.getItem('true'),
     });
 
     this.firstNameControl = this.body.get('first_name') as FormControl;
@@ -243,24 +283,16 @@ export class PaymentComponent implements OnInit {
 
     this.patchForm();
     this.fetchDocumentsTypes();
-  };
-
-  ngOnDestroy(): void {
-    window.removeEventListener('popstate', this.onPopState.bind(this));
-  };
+  }
 
   // ----------------------- //
 
-
-  onfocusSelects(){
-    this.subSelectTypeDocument.next(false)
-    this.subSelectTypePerson.next(false)
+  onfocusSelects() {
+    this.subSelectTypeDocument.next(false);
+    this.subSelectTypePerson.next(false);
   }
 
-
   public sendDataInvestment() {
-    console.log(this.body.value);
-
     const token = localStorage.getItem('token');
     if (!token) return;
     const payload: any = jwt_decode.default(token);
@@ -270,34 +302,35 @@ export class PaymentComponent implements OnInit {
       Math.random().toString().slice(-5, -1);
 
     let body = {
-      bank_code: this?.selectedStateBank.value,
+      bank_code: this?.body.get('selectedStateBank')?.value,
       name: this.body.get('first_name')?.value,
       address: this.body.get('address')?.value,
       region: this?.selectedState,
       city: this?.nameCity,
-      type_client: this.body.get('type_person')?.value,
-      type_document: this.body.get('document_type')?.value,
+      type_client: this.body.get('type_person')?.value.toString(),
+      type_document: this.body.get('document_type')?.value.toString(),
       number_document: this.body.get('document_number')?.value,
       number: this.body.get('phone')?.value,
       email: this.body.get('emailAdress')?.value,
       redirect_url: 'https://lokl.life/payment/successful',
       reference: reference,
-      amount: this.inversionValue,
-      type: this.type,
+      amount: this.inversionValue.toString(),
+      type: this.type.toString(),
       info_subcripcion: [
         {
           owner: '646fcef8c158685da367ec02',
           project: '63261a94c8011a8a836fda23',
-          inversion: this.inversionValue,
-          impuestos: this.taxes,
+          inversion: this.inversionValue.toString(),
+          impuestos: this.taxes.toString(),
           meses: this.formInversion.value.dues,
-          valor_mes: this.subtotal,
+          valor_mes: this.subtotal.toString(),
         },
       ],
       installments: '6',
-      prepayment: 0,
+      prepayment: '0',
     };
 
+    console.log(body);
     this.apiservice.post(`transaction`, body).subscribe(
       (res: any) => {
         console.log(res);
@@ -318,10 +351,10 @@ export class PaymentComponent implements OnInit {
   }
 
   redirectPse(id: string) {
-    const apiUrl = `https://sandbox.wompi.co/v1/transactions/${id}`;
+    const apiUrl = `https://production.wompi.co/v1/transactions/${id}`;
 
     // token Bearer
-    const bearerToken = 'pub_test_srHBcxqYISn8FsYZLuSWeOmhU679yCV5';
+    const bearerToken = 'pub_prod_zRN1PD4eVHzk7UvTCnBWL0hMQIHITjnn';
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -362,55 +395,71 @@ export class PaymentComponent implements OnInit {
 
   changeDues(event: any) {
     this.body.patchValue({ document_type: event.value });
+    console.log(this.body);
   }
 
-  submit(){
-    this.verControl()
-    this.validatingTransaction = true
-    setTimeout(
-      () => this.validatingTransaction = false,
-      30000
-    )
+  submit() {
+    this.validatingTransaction = true;
+    setTimeout(() => (this.validatingTransaction = false), 30000);
 
-    const type_document = this.body.value.document_type.toString(); //TODO: enlazar valores numericos a resp
+    const type_document = this.body.value.document_type.toString();
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    const payload: any = jwt_decode.default(token);
+    const reference =
+      payload.id +
+      '_632511ecd407318f2592f945_' +
+      Math.random().toString().slice(-5, -1);
 
-    const body =
-      {
-        "name": this.body.value.firstName,
-        "address": this.body.value.address,
-        "region": "ANT", //TODO: Enlazar regiones y ciudad de los selects
-        "city": "Abejorral",
-        "type_client": "0", //TODO: enlazar tipos de persona a un valor
-        "type_document": "CC",
-        "number_document": this.body.value.document_number,
-        "number": this.body.value.phone,
-        "email": this.body.value.emailAddress,
-        "numberCard": "4242424242424242",
-        "exp_month": "01",
-        "exp_year": "27",
-        "cvc": "123",
-        "redirect_url": "https://develop-property.lokl.life/payment/successful",
-        "reference": "64a6b2e7a604a10b8f557ca8_632511ecd407318f2592f945_9852",
-        "amount": "11200000",
-        "type": "1",
-        "info_subcripcion": [
-            {
-                "owner": "64a6b2e7a604a10b8f557ca8",
-                "project": "632511ecd407318f2592f945",
-                "inversion": "11200000",
-                "impuestos": "49466.675",
-                "meses": "6",
-                "valor_mes": "1978667"
-            }
+    let body;
+
+    if (this.tarjetaActiva) {
+      body = {
+        name: this.body.get('first_name')?.value,
+        address: this.body.value.address,
+        region: this.selectedState,
+        city: this.selectedcity,
+        type_client: this.body.get('type_person')?.value.toString(),
+        type_document: type_document,
+        number_document: this.body.value.document_number,
+        number: this.body.value.phone,
+        email: this.body.get('emailAdress')?.value,
+        numberCard: this.numberCard,
+        exp_month: this.exp_month,
+        exp_year: this.exp_year,
+        cvc: this.cvc,
+        redirect_url: 'https://develop-property.lokl.life/payment/successful',
+        reference: reference,
+        amount: this.inversionValue.toString(),
+        type: this.type.toString(),
+        info_subcripcion: [
+          {
+            owner: '64a6b2e7a604a10b8f557ca8',
+            project: '632511ecd407318f2592f945',
+            inversion: this.inversionValue.toString(),
+            impuestos: this.taxes ? this.taxes.toString() : '',
+            meses: this.formInversion.value.dues,
+            valor_mes: this.subtotal.toString(),
+          },
         ],
-        "installments": "6",
-        "prepayment": 0
+        installments: this.formInversion.value.dues,
+        prepayment: '0',
+      };
+
+      console.log(body);
+
+      this.apiservice.post(`transaction`, body).subscribe(
+        (res: any) => {
+          console.log(res);
+        },
+        (error: any) => {
+          console.log('error en enviar data', error);
+        }
+      );
+    } else {
+      this.sendDataInvestment();
     }
-
   }
-
-
-
 
   changeTypePerson(event: any) {
     this.body.patchValue({ type_person: event.value });
@@ -457,10 +506,10 @@ export class PaymentComponent implements OnInit {
 
   fetchDocumentsTypes() {
     this.opcionesSelect = [];
-    const apiUrl = 'https://sandbox.wompi.co/v1/pse/financial_institutions';
+    const apiUrl = 'https://production.wompi.co/v1/pse/financial_institutions';
 
     // token Bearer
-    const bearerToken = 'pub_test_srHBcxqYISn8FsYZLuSWeOmhU679yCV5';
+    const bearerToken = 'pub_prod_zRN1PD4eVHzk7UvTCnBWL0hMQIHITjnn';
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -490,19 +539,16 @@ export class PaymentComponent implements OnInit {
     this.selectedCountry = event.valor.iso2;
   }
 
-  verControl(){console.log(this.body);}
-
   stateChange(event: any) {
+    console.log(event, 'state');
+
     this.selectedState = event.valor.iso2;
     this.nameCity = event.valor.name;
   }
 
   cityChange(event: any) {
+    console.log(event, 'ciudad');
+
     this.selectedcity = event.valor.name;
   }
-
-  onStateChange(event: any) {
-    console.log(event);
-  }
 }
-
