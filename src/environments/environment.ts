@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   url: 'https://api.lokl.life/api/v1/',
-  unit_value: 112000,
+  unit_value: 114000,
 };
 
 /*

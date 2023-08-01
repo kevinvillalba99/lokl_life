@@ -49,7 +49,7 @@ export class InversionComponent implements OnInit, OnDestroy {
     { name: '9 meses', value: 9, selected: false },
   ];
   public formInversion: FormGroup = this.fb.group({
-    value: ['1.140.000'],
+    value: [0],
     dues: [1, [Validators.required]],
     payment: ['', [Validators.required]],
     acceptTerms: [false, [Validators.requiredTrue]],
@@ -99,7 +99,12 @@ export class InversionComponent implements OnInit, OnDestroy {
     private router: Router,
     private fb: FormBuilder,
     private activatedRoute: ActivatedRoute
-  ) {}
+  ) {
+    let monto_inicial = environment.unit_value * 100;
+    this.formInversion.patchValue({
+      value: String(monto_inicial),
+    });
+  }
   ngOnDestroy(): void {
     this.subSelectSelected.unsubscribe();
     this.subNumDeus.unsubscribe();
@@ -338,7 +343,9 @@ export class InversionComponent implements OnInit, OnDestroy {
     const payment = this.formInversion.value.payment == 'pse' ? '0' : '1';
     const payload: any = jwt_decode.default(token);
     const reference =
-      '_632511ecd407318f2592f945_' + Math.random().toString().slice(-5, -1);
+      payload.id +
+      '_632511ecd407318f2592f945_' +
+      Math.random().toString().slice(-5, -1);
 
     localStorage.setItem('reference_pay', reference.toString());
     localStorage.setItem('units', this.currentUnits.toString()); // Units totales

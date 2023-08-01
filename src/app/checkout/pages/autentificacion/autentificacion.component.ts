@@ -37,6 +37,8 @@ export class AutentificacionComponent implements OnInit {
   paso2: boolean = false;
   paso3: boolean = false;
 
+  loadingbutton: boolean = false;
+
   body!: FormGroup;
   firstNameControl!: FormControl;
   last_name!: FormControl;
@@ -152,11 +154,14 @@ export class AutentificacionComponent implements OnInit {
     if (this.token) {
       localStorage.setItem('token', `${this.token}`);
     }
+
+    setTimeout(() => {
+      this.patchForm();
+    }, 1000);
   }
 
   ngAfterViewInit(): void {
     this.ValidateParams();
-    this.patchForm();
   }
 
   public changeStep() {
@@ -192,12 +197,21 @@ export class AutentificacionComponent implements OnInit {
       }
     });
 
-    this.body.patchValue({ first_name });
-    this.body.patchValue({ last_name });
-    this.body.patchValue({ document_type });
-    this.body.patchValue({ document_number });
-    this.body.patchValue({ phone });
-    this.body.patchValue({ address });
+    if (
+      first_name &&
+      last_name &&
+      document_type &&
+      document_number &&
+      phone &&
+      address
+    ) {
+      this.body.patchValue({ first_name });
+      this.body.patchValue({ last_name });
+      this.body.patchValue({ document_type });
+      this.body.patchValue({ document_number });
+      this.body.patchValue({ phone });
+      this.body.patchValue({ address });
+    }
   }
 
   inputFocus() {
@@ -275,6 +289,7 @@ export class AutentificacionComponent implements OnInit {
   }
 
   public sendData() {
+    this.loadingbutton = true;
     let reference_pay = localStorage.getItem('reference_pay');
     let units = localStorage.getItem('units');
     let investment = localStorage.getItem('investment');
@@ -309,6 +324,7 @@ export class AutentificacionComponent implements OnInit {
     this.apiservice.post(`sign-contract/1`, body).subscribe(
       (res: any) => {
         console.log(res);
+        this.loadingbutton = false;
         this.openModal(this.modalContent);
         this.startCountdown();
       },
