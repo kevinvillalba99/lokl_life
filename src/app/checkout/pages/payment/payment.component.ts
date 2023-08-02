@@ -19,6 +19,7 @@ import { ApiService } from 'src/app/services/api.service';
 import * as jwt_decode from 'jwt-decode';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { monthDueValidator } from '../../validators/monthDue.validator';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-payment',
@@ -76,6 +77,27 @@ export class PaymentComponent implements OnInit {
     { name: 'Cédula de extranjería', value: 2, selected: false },
     { name: 'Pasaporte', value: 3, selected: false },
   ];
+
+  // ------ enviroment --------
+
+  public bearer_token_transactions: string = environment.bearer_token_transactions;
+  public api_url_financial_institutions: string = environment.api_url_financial_institutions;
+  public api_url_wompi_transactions: string = environment.api_url_wompi_transactions;
+
+  // PSE
+  public owner_wompi_pse: string = environment.owner_wompi_pse;
+  public project_wompi_pse: string = environment.project_wompi_pse;
+  public redirect_url_success_wompi_pse: string =
+    environment.redirect_url_success_wompi_pse;
+
+  // CREDIT
+  public owner_wompi_credit: string = environment.owner_wompi_credit;
+  public project_wompi_credit: string = environment.project_wompi_credit;
+  public redirect_url_success_wompi_credit: string =
+    environment.redirect_url_success_wompi_credit;
+
+  // ----------
+
   selectedCountry: string = 'CO';
   selectedState: string = '';
   nameCity: string = '';
@@ -283,6 +305,7 @@ export class PaymentComponent implements OnInit {
     this.subSelectTypePerson.next(false);
   }
 
+  // Funcion de pago con PSE
   public sendDataInvestment() {
     const token = localStorage.getItem('token');
     if (!token) return;
@@ -303,14 +326,14 @@ export class PaymentComponent implements OnInit {
       number_document: this.body.get('document_number')?.value,
       number: this.body.get('phone')?.value,
       email: this.body.get('emailAdress')?.value,
-      redirect_url: 'https://lokl.life/payment/successful',
+      redirect_url: this.redirect_url_success_wompi_pse,
       reference: reference,
       amount: this.inversionValue.toString(),
       type: this.type.toString(),
       info_subcripcion: [
         {
-          owner: '646fcef8c158685da367ec02',
-          project: '63261a94c8011a8a836fda23',
+          owner: this.owner_wompi_pse,
+          project: this.project_wompi_pse,
           inversion: this.inversionValue.toString(),
           impuestos: this.taxes.toString(),
           meses: this.formInversion.value.dues,
@@ -339,13 +362,79 @@ export class PaymentComponent implements OnInit {
         console.log('error en enviar data', error);
       }
     );
-  }
+  };
+
+  // Funcion de pago con tarjeta de credito
+  submit() {
+    this.validatingTransaction = true;
+    setTimeout(() => (this.validatingTransaction = false), 30000);
+
+    const type_document = this.body.value.document_type.toString();
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    const payload: any = jwt_decode.default(token);
+    const reference =
+      payload.id +
+      '_632511ecd407318f2592f945_' +
+      Math.random().toString().slice(-5, -1);
+
+    let body;
+
+    if (this.tarjetaActiva) {
+      body = {
+        name: this.body.get('first_name')?.value,
+        address: this.body.value.address,
+        region: this.selectedState,
+        city: this.selectedcity,
+        type_client: this.body.get('type_person')?.value.toString(),
+        type_document: type_document,
+        number_document: this.body.value.document_number,
+        number: this.body.value.phone,
+        email: this.body.get('emailAdress')?.value,
+        numberCard: this.numberCard,
+        exp_month: this.exp_month,
+        exp_year: this.exp_year,
+        cvc: this.cvc,
+        redirect_url: this.redirect_url_success_wompi_credit,
+        reference: reference,
+        amount: this.inversionValue.toString(),
+        type: this.type.toString(),
+        info_subcripcion: [
+          {
+            owner: this.owner_wompi_credit,
+            project: this.project_wompi_credit,
+            inversion: this.inversionValue.toString(),
+            impuestos: this.taxes ? this.taxes.toString() : '',
+            meses: this.formInversion.value.dues,
+            valor_mes: this.subtotal.toString(),
+          },
+        ],
+        installments: this.formInversion.value.dues,
+        prepayment: '0',
+      };
+
+      console.log(body);
+
+      this.apiservice.post(`transaction`, body).subscribe(
+        (res: any) => {
+          console.log(res);
+        },
+        (error: any) => {
+          console.log('error en enviar data', error);
+        }
+      );
+    } else {
+      this.sendDataInvestment();
+    }
+  };
+
+
 
   redirectPse(id: string) {
-    const apiUrl = `https://production.wompi.co/v1/transactions/${id}`;
+    const apiUrl = `${this.api_url_wompi_transactions}${id}`;
 
     // token Bearer
-    const bearerToken = 'pub_prod_zRN1PD4eVHzk7UvTCnBWL0hMQIHITjnn';
+    const bearerToken = this.bearer_token_transactions;
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -387,69 +476,6 @@ export class PaymentComponent implements OnInit {
   changeDues(event: any) {
     this.body.patchValue({ document_type: event.value });
     console.log(this.body);
-  }
-
-  submit() {
-    this.validatingTransaction = true;
-    setTimeout(() => (this.validatingTransaction = false), 30000);
-
-    const type_document = this.body.value.document_type.toString();
-    const token = localStorage.getItem('token');
-    if (!token) return;
-    const payload: any = jwt_decode.default(token);
-    const reference =
-      payload.id +
-      '_632511ecd407318f2592f945_' +
-      Math.random().toString().slice(-5, -1);
-
-    let body;
-
-    if (this.tarjetaActiva) {
-      body = {
-        name: this.body.get('first_name')?.value,
-        address: this.body.value.address,
-        region: this.selectedState,
-        city: this.selectedcity,
-        type_client: this.body.get('type_person')?.value.toString(),
-        type_document: type_document,
-        number_document: this.body.value.document_number,
-        number: this.body.value.phone,
-        email: this.body.get('emailAdress')?.value,
-        numberCard: this.numberCard,
-        exp_month: this.exp_month,
-        exp_year: this.exp_year,
-        cvc: this.cvc,
-        redirect_url: 'https://develop-property.lokl.life/payment/successful',
-        reference: reference,
-        amount: this.inversionValue.toString(),
-        type: this.type.toString(),
-        info_subcripcion: [
-          {
-            owner: '64a6b2e7a604a10b8f557ca8',
-            project: '632511ecd407318f2592f945',
-            inversion: this.inversionValue.toString(),
-            impuestos: this.taxes ? this.taxes.toString() : '',
-            meses: this.formInversion.value.dues,
-            valor_mes: this.subtotal.toString(),
-          },
-        ],
-        installments: this.formInversion.value.dues,
-        prepayment: '0',
-      };
-
-      console.log(body);
-
-      this.apiservice.post(`transaction`, body).subscribe(
-        (res: any) => {
-          console.log(res);
-        },
-        (error: any) => {
-          console.log('error en enviar data', error);
-        }
-      );
-    } else {
-      this.sendDataInvestment();
-    }
   }
 
   changeTypePerson(event: any) {
@@ -497,10 +523,10 @@ export class PaymentComponent implements OnInit {
 
   fetchDocumentsTypes() {
     this.opcionesSelect = [];
-    const apiUrl = 'https://production.wompi.co/v1/pse/financial_institutions';
+    const apiUrl = this.api_url_financial_institutions;
 
     // token Bearer
-    const bearerToken = 'pub_prod_zRN1PD4eVHzk7UvTCnBWL0hMQIHITjnn';
+    const bearerToken = this.bearer_token_transactions;
 
     const httpOptions = {
       headers: new HttpHeaders({
