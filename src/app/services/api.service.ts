@@ -16,8 +16,6 @@ export class ApiService {
   }
 
   get(path: string, data?: any): any {
-    console.log(data);
-
     return this.http
       .get<any>(`${environment.url}${path}`, data)
       .pipe(map((data) => data));
