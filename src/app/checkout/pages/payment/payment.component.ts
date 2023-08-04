@@ -117,6 +117,7 @@ export class PaymentComponent implements OnInit {
 
   inversionValue: number = 0;
   subtotal = 0;
+  investmentTotal = 0;
   taxes: number = 0;
   type: number = 0;
   mapCuotas = {
@@ -328,13 +329,13 @@ export class PaymentComponent implements OnInit {
       email: this.body.get('emailAdress')?.value,
       redirect_url: this.redirect_url_success_wompi_pse,
       reference: reference,
-      amount: this.inversionValue.toString(),
+      amount: this.investmentTotal.toString(),
       type: this.type.toString(),
       info_subcripcion: [
         {
           owner: this.owner_wompi_pse,
           project: this.project_wompi_pse,
-          inversion: this.inversionValue.toString(),
+          inversion: this.investmentTotal.toString(),
           impuestos: this.taxes.toString(),
           meses: this.formInversion.value.dues,
           valor_mes: this.subtotal.toString(),
@@ -397,16 +398,16 @@ export class PaymentComponent implements OnInit {
         cvc: this.cvc,
         redirect_url: this.redirect_url_success_wompi_credit,
         reference: reference,
-        amount: this.inversionValue.toString(),
+        amount: this.investmentTotal.toString(),
         type: this.type.toString(),
         info_subcripcion: [
           {
             owner: this.owner_wompi_credit,
             project: this.project_wompi_credit,
-            inversion: this.inversionValue.toString(),
+            inversion: this.investmentTotal.toString(),
             impuestos: this.taxes ? this.taxes.toString() : '',
             meses: this.formInversion.value.dues,
-            valor_mes: this.subtotal.toString(),
+            valor_mes: this.investmentTotal.toString(),
           },
         ],
         installments: this.formInversion.value.dues,
@@ -493,6 +494,8 @@ export class PaymentComponent implements OnInit {
     let investment = localStorage?.getItem('investment_total');
     let type = localStorage?.getItem('type');
     let taxes = localStorage?.getItem('taxes');
+    let month_value = localStorage?.getItem('month_value')
+    let investmentTotal = localStorage?.getItem('investment')
 
     if (Number(type) === 1) {
       this.paymentCards = [{ name: 'visa', selected: true }];
@@ -516,7 +519,8 @@ export class PaymentComponent implements OnInit {
 
     this.formInversion.value.dues = months;
     this.inversionValue = Number(investment) ?? 0;
-    this.subtotal = Number(investment) / Number(months) ?? 0;
+    this.subtotal = Number(month_value);
+    this.investmentTotal = Number(investmentTotal)
     this.taxes = Number(taxes) ?? 0;
     this.type = Number(type) ?? 0;
   }
