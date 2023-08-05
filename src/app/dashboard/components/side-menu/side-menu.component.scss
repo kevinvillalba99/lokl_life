@@ -19,9 +19,60 @@
   font-family: Roboto,sans-serif;
 }
 
+.codigo-referido{
+  font-weight: 900;
+  font-size: 23px;
+  font-family: Roboto,sans-serif;
+}
+
+.ind-codigo-referido{
+  font-family: Roboto,sans-serif;
+  font-size: 14px;
+  color: #212529;
+}
+
+.icon-option{
+  margin-right: 20px;
+  height: 25px;
+  width: 25px;
+}
+
+.ancor-option{
+  text-decoration: none;
+  color: black;
+  font-family: Roboto,sans-serif;;
+  font-weight: 500;
+  font-size: 16px;
+}
+
 button{
   background-color: #D8D1FF;
   font-family: Roboto,sans-serif;
   font-weight: 800;
 }
 
+.btn-shared{
+  border: 1px solid black;
+  border-radius: 9999px;
+
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+
+  padding-left:  0.25rem;
+  padding-right: 0.25rem;
+}
+
+.profile-button{
+
+  text-transform: none;
+
+  border: none;
+  padding: 5px;
+
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+
+}

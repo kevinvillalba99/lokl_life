@@ -12,6 +12,7 @@ export class SideMenuComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  userName: string = "William Delgado"
+  userName: string = "William Delgado";
+  referralCode: string = "ABC123";
 
 }
