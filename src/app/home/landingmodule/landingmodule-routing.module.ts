@@ -28,6 +28,13 @@ const routes: Routes = [
             (m) => m.CheckoutModule
           ),
       },
+      {
+        path: 'dashboard',
+        loadChildren: () =>
+          import('src/app/dashboard/dashboard.module').then(
+            m => m.DashboardModule
+          )
+      },
     ],
   },
 ];
