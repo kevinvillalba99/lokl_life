@@ -23,8 +23,6 @@ import { PaymentCard } from '../../interfaces/paymentCard.interface';
 import { CustomSelectElement } from '../../interfaces/customSelectElement.interface';
 import { CardDataElement } from '../../interfaces/cardDataElement.interface';
 import { environment } from 'src/environments/environment';
-import { RestCountriesApiService } from 'src/app/services/rest-countries-api.service';
-import { customMinValidator } from '../../validators/customMin.validator';
 
 @Component({
   selector: 'app-inversion',

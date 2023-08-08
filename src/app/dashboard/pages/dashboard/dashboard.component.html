@@ -1,14 +1,18 @@
 <app-minutero></app-minutero>
 <div class="d-flex main-container">
 
-  <app-side-menu class = "col-12 col-md p-0"></app-side-menu>
+  <app-side-menu class = "col-12 col-md p-0" [userData]="userData"></app-side-menu>
 
   <div class = "col-12 col-md dash-content w-100 h-100 p-4 p-md-1 ml-md-2">
     <div>
       <h2 class ="h2-principal"> Mis inversiones </h2>
     </div>
-    <div>
+    <div *ngIf = "userProperties.length == 0">
       <p>Bla, bla, bla...</p>
+    </div>
+
+    <div *ngIf = "userProperties.length > 0">
+      <app-inversion-cards [data] = "userProperties"></app-inversion-cards>
     </div>
   </div>
 

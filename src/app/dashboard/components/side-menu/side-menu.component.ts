@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { UserData } from '../../interfaces/userDataResponse.interface';
 
 @Component({
   selector: 'app-side-menu',
@@ -7,12 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SideMenuComponent implements OnInit {
 
+  @Input() userData!: UserData;
+
   constructor() { }
 
-  ngOnInit(): void {
-  }
 
-  userName: string = "William Delgado";
-  referralCode: string = "ABC123";
+  ngOnInit(): void {
+    console.log(this.userData);
+  }
 
 }

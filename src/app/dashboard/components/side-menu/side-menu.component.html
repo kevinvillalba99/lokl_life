@@ -28,7 +28,7 @@
     <div class="text-muted mb-2">Bienvenido de nuevo</div>
 
     <div class="user-name mb-4">
-      {{ userName }}
+      {{ userData.first_name + " " + userData.last_name }}
     </div>
 
     <div class="mb-1">
@@ -43,7 +43,7 @@
 
     <div class="row justify-content-center p-0 m-0" style="width: 160px">
       <div class="col-11 codigo-referido mb-2">
-        {{ referralCode }}
+        {{userData.uniquecode}}
       </div>
 
       <div class="col-11 ind-codigo-referido p-0 mb-2">
@@ -81,7 +81,7 @@
 
 <div class="d-flex flex-column d-md-none responsive-profile">
   <div class="user-name mt-2" style = "color: #ffffff">
-    {{userName}}
+    {{userData.first_name + userData.last_name}}
   </div>
 
   <a href="#" style = "color:#FFCBD7" class = "mb-1">Completa tu perfil personal</a>
