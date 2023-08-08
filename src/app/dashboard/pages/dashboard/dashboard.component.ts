@@ -3,9 +3,8 @@ import { InversionCardData } from '../../interfaces/InversionCardData.interface'
 import { PropertyData } from '../../interfaces/PropertiesResponse.interface';
 import { UserData } from '../../interfaces/userDataResponse.interface';
 import { UserApiService } from '../../services/userApi.service';
+import { ActivatedRoute } from '@angular/router';
 
-import * as jwt_decode from 'jwt-decode';
-import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,8 +16,11 @@ export class DashboardComponent implements OnInit {
   userData!: UserData;
   userProperties: PropertyData[] = []
 
+  actualUrl: string;
 
-  constructor(private api: UserApiService) { }
+  constructor(private api: UserApiService, private route: ActivatedRoute) {
+    this.actualUrl = this.route.snapshot.routeConfig?.path ?? ''
+  }
 
   ngOnInit(): void {
     let token: any = localStorage.getItem('token');
@@ -34,11 +36,6 @@ export class DashboardComponent implements OnInit {
     else{
       //TODO: Redireccionar al login
     }
-
-    setTimeout( ( ) => {
-      console.log(this.userData);
-      console.log(this.userProperties);
-    }, 5000 )
   }
 
 }

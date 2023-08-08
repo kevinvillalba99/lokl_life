@@ -1,0 +1,110 @@
+<div class = "d-flex justify-content-left align-items-center fw-bold cursor-pointer" (click)="back()">
+  <img src = "/assets/icon/back-arrow.svg" class = "mr-2">
+  Volver
+</div>
+
+<mat-tab-group>
+  <mat-tab label="Detalles del proyecto">
+    <div class="contenedor-principal" *ngIf="actualProperty">
+      <div class="encabezado-detalles d-flex justify-content-between">
+        <div class="font-lato px-3 text-center">
+          <div class="encabezado-title">Invertido hasta la fecha</div>
+          <div class="encabezado-info">{{ actualProperty.property.invested  | currency }}</div>
+        </div>
+        <div class="font-lato px-3 separador-izq text-center">
+          <div class="encabezado-title">Retorno</div>
+          <div class="encabezado-info">0%</div>
+        </div>
+        <div class="font-lato px-3 separador-izq text-center">
+          <div class="encabezado-title">Rentas</div>
+          <div class="encabezado-info">-</div>
+        </div>
+        <div class="font-lato px-3 separador-izq text-center">
+          <div class="encabezado-title">Units disponibles</div>
+          <div class="encabezado-info">{{actualProperty.property.available_shares}}</div>
+        </div>
+        <div class="font-lato px-3 separador-izq text-center">
+          <div class="encabezado-title">Valor por Unit</div>
+          <div class="encabezado-info">
+            {{ actualProperty.property.share_value | currency}}
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex flex-row" *ngIf="actualProperty">
+        <div class="contenedor-details">
+          <div class="d-flex justify-content-between mb-3">
+            <h2 class="title-project">
+              {{ actualProperty.property.name | titlecase }}
+            </h2>
+            <div class="d-flex justify-content-center align-items-center">
+              <img
+                style="width: 16px"
+                src="/assets/icon/star-yellow.svg"
+                alt="qualification"
+              />
+              <div class="ml-2 d-flex align-items-center">
+                {{ actualProperty.property.rate }}
+              </div>
+            </div>
+          </div>
+
+          <p class="description-text">
+            {{ actualProperty.property.short_description }}
+          </p>
+
+          <div class="d-flex justify-content-start">
+            <div>
+              <p class="investment-text">
+                {{ actualProperty.payment | currency }}
+              </p>
+              <p class="investment-title">Monto Invertido</p>
+            </div>
+
+            <div class="ml-5">
+              <p class="investment-text">{{ actualProperty.shares }}</p>
+              <p class="investment-title">Units</p>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column contenedor-info-inversion">
+            <div class="d-flex justify-content-between seccion-info-inversion">
+              <div class="info-inversion">Valor de Unit</div>
+              <div class="info-inversion">{{ actualProperty.property.share_value | currency}}</div>
+            </div>
+
+            <div class="d-flex justify-content-between seccion-info-inversion">
+              <div class="info-inversion">Etapa</div>
+              <div class="info-inversion"></div>
+            </div>
+
+            <div class="d-flex justify-content-between seccion-info-inversion">
+              <div class="info-inversion">Cupo de inversión</div>
+              <div class="info-inversion">{{ actualProperty.property.invested | number }} </div>
+            </div>
+
+            <div class="d-flex justify-content-between seccion-info-inversion">
+              <div class="info-inversion">Estado del proyecto</div>
+              <div class="info-inversion" *ngIf = "actualProperty.property.is_completed">Completado</div>
+              <div class="info-inversion" *ngIf = "!actualProperty.property.is_completed">No completado</div>
+            </div>
+
+            <div
+              class="d-flex justify-content-between seccion-info-inversion border border-0"
+            >
+              <div class="info-inversion">Detalles del proyecto</div>
+              <div class="info-inversion"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class = "container-video">
+
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Detalles de la inversión" labelClass="color: black;">
+  </mat-tab>
+</mat-tab-group>

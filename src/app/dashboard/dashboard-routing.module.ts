@@ -1,17 +1,24 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { ProjectViewComponent } from './components/project-view/project-view.component';
+import { InvestmentsViewComponent } from './components/investments-view/investments-view.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: DashboardComponent
+    component: DashboardComponent,
+    children: [
+      {
+        path: '',
+        component: InvestmentsViewComponent
+      },
+      {
+        path: ':lokl_id',
+        component: ProjectViewComponent,
+      },
+    ]
   },
-  {
-    path: '**',
-    redirectTo: '',
-    pathMatch: 'full'
-  }
 ];
 
 @NgModule({

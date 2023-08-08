@@ -7,6 +7,9 @@ import { SideMenuComponent } from './components/side-menu/side-menu.component';
 import { LandingmoduleModule } from '../home/landingmodule/landingmodule.module';
 import { InversionCardComponent } from './components/inversion-card/inversion-card.component';
 import { InversionCardsComponent } from './components/inversion-cards/inversion-cards.component';
+import { ProjectViewComponent } from './components/project-view/project-view.component';
+import { InvestmentsViewComponent } from './components/investments-view/investments-view.component';
+import { MaterialModule } from '../material/material.module';
 
 
 @NgModule({
@@ -14,12 +17,15 @@ import { InversionCardsComponent } from './components/inversion-cards/inversion-
     DashboardComponent,
     SideMenuComponent,
     InversionCardComponent,
-    InversionCardsComponent
+    InversionCardsComponent,
+    ProjectViewComponent,
+    InvestmentsViewComponent,
   ],
   imports: [
     CommonModule,
     DashboardRoutingModule,
-    LandingmoduleModule
+    LandingmoduleModule,
+    MaterialModule
   ]
 })
 export class DashboardModule { }
