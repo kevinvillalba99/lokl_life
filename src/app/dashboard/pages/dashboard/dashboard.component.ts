@@ -16,10 +16,7 @@ export class DashboardComponent implements OnInit {
   userData!: UserData;
   userProperties: PropertyData[] = []
 
-  actualUrl: string;
-
   constructor(private api: UserApiService, private route: ActivatedRoute) {
-    this.actualUrl = this.route.snapshot.routeConfig?.path ?? ''
   }
 
   ngOnInit(): void {

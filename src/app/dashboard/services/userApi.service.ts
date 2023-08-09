@@ -12,6 +12,7 @@ export class UserApiService {
   constructor(private http: HttpClient, ) { }
 
   private propertiesData: PropertyData[] = [];
+  private userData?: UserData;
 
   private executeQuery<T>( endPoint: string, headers: HttpHeaders ): any{
 
@@ -21,10 +22,14 @@ export class UserApiService {
   }
 
   getUserByToken(token: string): Observable<UserData>{
+    if( this.userData ) return of(this.userData)
     const token_dec: any = jwtDecode.default(token)
     const headers = new HttpHeaders({'Authorization': `Bearer ${token}`})
     return this.executeQuery<UserDataResponse>( `owners/${token_dec.id}`, headers)
-      .pipe( map(({data}) => data) )
+      .pipe(
+        map(({data}) => data),
+        tap( (resp: UserData) => this.userData = resp )
+      )
   }
 
   getProperties(): Observable<PropertyData[]>{

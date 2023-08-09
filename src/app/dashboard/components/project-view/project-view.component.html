@@ -1,15 +1,15 @@
-<div class = "d-flex justify-content-left align-items-center fw-bold cursor-pointer" (click)="back()">
+<div class = "d-flex justify-content-left align-items-center fw-bold cursor-pointer" (click)="back()" style = "max-width: 20px;">
   <img src = "/assets/icon/back-arrow.svg" class = "mr-2">
   Volver
 </div>
 
-<mat-tab-group>
+<mat-tab-group [animationDuration]="0">
   <mat-tab label="Detalles del proyecto">
-    <div class="contenedor-principal" *ngIf="actualProperty">
+    <div class="contenedor-principal cursor-default" *ngIf="actualProperty">
       <div class="encabezado-detalles d-flex justify-content-between">
         <div class="font-lato px-3 text-center">
           <div class="encabezado-title">Invertido hasta la fecha</div>
-          <div class="encabezado-info">{{ actualProperty.property.invested  | currency }}</div>
+          <div class="encabezado-info">{{ actualProperty.property.invested  | currency:'':'symbol-narrow':'1.0-0' }}</div>
         </div>
         <div class="font-lato px-3 separador-izq text-center">
           <div class="encabezado-title">Retorno</div>
@@ -26,7 +26,7 @@
         <div class="font-lato px-3 separador-izq text-center">
           <div class="encabezado-title">Valor por Unit</div>
           <div class="encabezado-info">
-            {{ actualProperty.property.share_value | currency}}
+            {{ actualProperty.property.share_value | currency:'':'symbol-narrow':'1.0-0'}}
           </div>
         </div>
       </div>
@@ -56,7 +56,7 @@
           <div class="d-flex justify-content-start">
             <div>
               <p class="investment-text">
-                {{ actualProperty.payment | currency }}
+                {{ actualProperty.payment | currency:'':'symbol-narrow':'1.0-0' }}
               </p>
               <p class="investment-title">Monto Invertido</p>
             </div>
@@ -70,7 +70,7 @@
           <div class="d-flex flex-column contenedor-info-inversion">
             <div class="d-flex justify-content-between seccion-info-inversion">
               <div class="info-inversion">Valor de Unit</div>
-              <div class="info-inversion">{{ actualProperty.property.share_value | currency}}</div>
+              <div class="info-inversion">{{ actualProperty.property.share_value | currency:'':'symbol-narrow':'1.0-0'}}</div>
             </div>
 
             <div class="d-flex justify-content-between seccion-info-inversion">
@@ -98,13 +98,99 @@
           </div>
         </div>
 
-        <div class = "container-video">
+        <div class = "contenedor-multimedia">
+          <div class="vista-video">
+            <div class = "d-relative mb-3" >
+              <div *ngIf = "!repVideo">
+                <div class = "contenedor-miniatura" (click) = "repVideo = !repVideo" >
 
+                  <div class="texto-miniatura">
+                    Creemos que la vida es una sola, <br>
+                    para solo vivirla los fines de semana.
+                  </div>
+
+                  <img class = "sello-miniatura" src = "/assets/icon/arrow-next.svg" height="50" width="50" >
+
+                </div>
+
+                <img class = "img-miniatura" src = "/assets/miniatura-prueba.jpg">
+
+              </div>
+
+              <div class="video-container youtube-player" *ngIf = "repVideo" id = "youtube-player">
+                <iframe id="ytplayer" type="text/html" width="100%" height="100%"
+                    [src]="actualProperty.property.videos[0].path" frameborder="0"
+                    allowfullscreen></iframe>
+              </div>
+
+            </div>
+
+
+
+          </div>
         </div>
+
       </div>
     </div>
   </mat-tab>
 
   <mat-tab label="Detalles de la inversión" labelClass="color: black;">
+    <div class="contenedor-principal cursor-default" *ngIf="actualProperty">
+
+      <div class="d-flex">
+        <div class="encabezado-detalles-sec d-flex justify-content-between col-7">
+          <div class="font-lato px-3 text-center">
+            <div class="encabezado-title">Monto Invertido</div>
+            <div class="encabezado-info">{{ actualProperty.payment  | currency:'':'symbol-narrow':'1.0-0' }}</div>
+          </div>
+          <div class="font-lato px-3 separador-izq text-center">
+            <div class="encabezado-title">Units Propios</div>
+            <div class="encabezado-info"> {{actualProperty.shares | number}} </div>
+          </div>
+          <div class="font-lato px-3 separador-izq text-center">
+            <div class="encabezado-title">Compra de Unit</div>
+            <div class="encabezado-info"> - </div> <!--TODO:-->
+          </div>
+          <div class="font-lato px-3 separador-izq text-center">
+            <div class="encabezado-title">Rentas</div>
+            <div class="encabezado-info"> - </div> <!--TODO:-->
+          </div>
+
+        </div>
+
+        <div class="bg-rojizo d-flex justify-content-between col-5">
+          <div class="font-lato px-3 separador-izq text-center">
+            <div class="encabezado-title">Porcentaje de valorización</div>
+            <div class="encabezado-info"> 0% </div> <!--TODO:-->
+          </div>
+          <div class="font-lato px-3 separador-izq text-center">
+            <div class="encabezado-title">Valor por Unit</div>
+            <div class="encabezado-info"> {{0| currency:'':'symbol-narrow':'1.0-0'}} </div><!--TODO:-->
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <div class="d-flex">
+        <div class="d-flex flex-column">
+          <div class="desc-pdf-cont">
+            <div class="title-project mb-3">Contratos de mandato</div>
+            <div class = "d-flex justify-content-between text-pdf-desc" (click) = "downloadContract()">
+              <div>
+                {{filename}}
+              </div>
+
+              <svg class="svg-download" width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
+                <path d="M14.375 15.0938H17.7891C20.2598 15.0938 22.2812 14.141 22.2812 11.6977C22.2812 9.25436 19.9004 8.39725 17.9688 8.30156C17.5694 4.48051 14.7793 2.15625 11.5 2.15625C8.40039 2.15625 6.40406 4.21322 5.75 6.25312C3.05469 6.50918 0.71875 7.86492 0.71875 10.6734C0.71875 13.482 3.14453 15.0938 6.10938 15.0938H8.625M8.625 17.9732L11.5 20.8438L14.375 17.9732M11.5 10.0625V20.1263"
+                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                </path>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </mat-tab>
 </mat-tab-group>
