@@ -1,5 +1,5 @@
 <div class="my-1 mx-3 main-container justify-content-center d-xl d-none d-md-flex">
-  <div class="text-center pt-5 justify-content-center mb-5">
+  <div class="text-center pt-5 justify-content-center mb-5" *ngIf = "userData">
     <div class="position-relative mb-1">
       <div
         class="position-absolute top-50 w-100 h-100 text-center"
@@ -31,9 +31,9 @@
       {{ userData.first_name + " " + userData.last_name }}
     </div>
 
-    <div class="mb-1">
+    <div class="mb-1" *ngIf = "!userData.profile_complete">
       <button class="rounded-4 text-sm text-black profile-button">
-        % Completar perfil
+        10% Completar perfil
       </button>
     </div>
 
@@ -79,7 +79,7 @@
   </div>
 </div>
 
-<div class="d-flex flex-column d-md-none responsive-profile">
+<div class="d-flex flex-column d-md-none responsive-profile" *ngIf = "userData">
   <div class="user-name mt-2" style = "color: #ffffff">
     {{userData.first_name + userData.last_name}}
   </div>

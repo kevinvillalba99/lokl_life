@@ -216,10 +216,24 @@ a:hover {
   background-color: rgba(220, 38, 38, 0.75);
 }
 
-.mat-tab-label {
+
+.tabs-01 .mat-tab-label {
   color: #6D5555!important;
 }
 
-.mat-tab-group.mat-primary .mat-ink-bar{
-  background-color: #6D5555;
+
+
+.tabs-01 .mat-ink-bar{
+  color: #6D5555!important;
+  background-color: #6D5555!important;
 }
+
+.tabs-02 .mat-tab-label{
+  color: #B49BC0!important;
+}
+
+.tabs-02 .mat-ink-bar{
+  color: #B49BC0!important;
+  background-color: #B49BC0!important;
+}
+

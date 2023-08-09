@@ -4,6 +4,8 @@ import { switchMap, tap } from 'rxjs';
 import { PropertyData } from '../../interfaces/PropertiesResponse.interface';
 import { UserApiService } from '../../services/userApi.service';
 import { UserData } from '../../interfaces/userDataResponse.interface';
+import { Installment, OwnerSubscriptionData } from '../../interfaces/OwnerSubscriptionResponse.interface';
+import { InfoPMS } from '../../interfaces/InfoPMS.interface';
 
 @Component({
   selector: 'app-project-view',
@@ -15,7 +17,17 @@ export class ProjectViewComponent implements OnInit {
   propertiesData?: PropertyData[];
   actualProperty?: PropertyData;
   userData?: UserData;
+  subscriptionData?: OwnerSubscriptionData;
+  infoPMS?: InfoPMS;
+
+  cuotasAprobada: Installment[] = [];
+  cuotasPendientes: Installment[] = [];
+
+  sumaCuotasPagadas: number = 0;
+
   private player: any;
+
+  id_project: string = "";
 
   filename: string = "";
 
@@ -25,7 +37,17 @@ export class ProjectViewComponent implements OnInit {
     this.api.getProperties().subscribe( resp => this.propertiesData = resp )
 
     let token: any = localStorage.getItem('token');
-    if(token) this.api.getUserByToken(token).subscribe( resp => this.userData = resp )
+    if(token) {
+      this.api.getUserByToken(token).subscribe( resp => this.userData = resp )
+      this.api.getOwnerSubscription().subscribe( resp => {
+        this.subscriptionData = resp;
+        console.log(this.subscriptionData);
+        this.cuotasAprobada = resp.installments.filter(cuota => cuota.installment_state == "APPROVED");
+        this.cuotasPendientes = resp.installments.filter(cuota => cuota.installment_state == "PENDING");
+        this.sumaCuotasPagadas = this.cuotasAprobada.reduce((accumulator, item) => accumulator + parseInt(item.installment_value), 0)
+      } )
+      this.api.getInfoPMS().subscribe( resp => this.infoPMS = resp )
+    }
   }
 
   ngOnInit(): void {
@@ -36,6 +58,8 @@ export class ProjectViewComponent implements OnInit {
       }else{
         setTimeout( () => {
           this.updateProperty(resp)
+          if( !this.actualProperty ) this.router.navigateByUrl('dashboard')
+          console.log('redireccionando');
         }, 1000 )
       }
     }
@@ -47,6 +71,7 @@ export class ProjectViewComponent implements OnInit {
     this.actualProperty =
       this.propertiesData!.find( property => property.property.lokl_id == resp['lokl_id'] )
 
+    this.id_project = resp['lokl_id']
     this.filename = `${this.actualProperty?.docuSigned[0]._id.substring(0, 5)}_contrato_mandato_${this.userData?.first_name}`
   }
 
@@ -86,4 +111,7 @@ export class ProjectViewComponent implements OnInit {
     document.body.removeChild(link);
   }
 
+  pagarCuotaProx(){
+
+  }
 }

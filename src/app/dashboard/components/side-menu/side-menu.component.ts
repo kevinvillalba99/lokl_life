@@ -8,10 +8,9 @@ import { UserData } from '../../interfaces/userDataResponse.interface';
 })
 export class SideMenuComponent implements OnInit {
 
-  @Input() userData!: UserData;
+  @Input() userData?: UserData;
 
   constructor() { }
-
 
   ngOnInit(): void {
   }

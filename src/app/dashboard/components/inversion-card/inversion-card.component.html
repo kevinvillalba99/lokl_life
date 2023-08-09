@@ -1,26 +1,30 @@
 <div class="inversion-card">
-  <div class="d-flex justify-content-between mb-3">
-    <h2 class = "title-project"> {{data.property.name | titlecase}} </h2>
-    <div class = "d-flex justify-content-center">
-      <img style = "width: 16px;" src="/assets/icon/star-yellow.svg" alt="qualification">
-      <div class="ml-2 qualification-text align-items-center">
-        {{data.property.rate}}
+  <div style = "height: auto!important;">
+    <div class="d-flex justify-content-between mb-3">
+      <h2 class = "title-project"> {{data.property.name | titlecase}} </h2>
+      <div class = "d-flex justify-content-center">
+        <img style = "width: 16px;" src="/assets/icon/star-yellow.svg" alt="qualification">
+        <div class="ml-2 qualification-text align-items-center">
+          {{data.property.rate| number:'1.1-1'}}
+        </div>
       </div>
     </div>
-  </div>
 
-  <p class = "description-text"> {{data.property.short_description}} </p>
-  <div class = "d-flex justify-content-between">
-    <div>
-      <p class = "investment-text"> {{data.payment | currency:'':'symbol-narrow':'1.0-0'}} </p>
-      <p class = "investment-title"> Monto Invertido </p>
+    <p class = "description-text"> {{data.property.short_description}} </p>
+    <div class = "d-flex justify-content-between">
+      <div>
+        <p class = "investment-text"> {{data.payment | currency:'':'symbol-narrow':'1.0-0'}} </p>
+        <p class = "investment-title"> Monto Invertido </p>
+      </div>
+
+      <div>
+        <p class = "investment-text"> {{data.shares}} </p>
+        <p class = "investment-title"> Units </p>
+      </div>
+
+      <button type="button" class = "ver-inversion-b" (click) = "redirect()">Ver inversión</button>
     </div>
 
-    <div>
-      <p class = "investment-text"> {{data.shares}} </p>
-      <p class = "investment-title"> Units </p>
-    </div>
-
-    <button type="button" class = "ver-inversion-b" (click) = "redirect()">Ver inversión</button>
   </div>
+
 </div>

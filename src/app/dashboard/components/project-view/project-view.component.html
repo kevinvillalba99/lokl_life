@@ -3,26 +3,45 @@
   Volver
 </div>
 
-<mat-tab-group [animationDuration]="0">
+<mat-tab-group [animationDuration]="0" [ngClass]=" { 'tabs-01': id_project == 'nido_de_agua_etapa_1', 'tabs-02': id_project == 'indie_studio_01' } " *ngIf="actualProperty">
   <mat-tab label="Detalles del proyecto">
     <div class="contenedor-principal cursor-default" *ngIf="actualProperty">
-      <div class="encabezado-detalles d-flex justify-content-between">
+      <div class="encabezado-detalles d-flex justify-content-between" [ngClass] = " { 'bg-sec': id_project == 'indie_studio_01' } ">
+
         <div class="font-lato px-3 text-left">
           <div class="encabezado-title">Invertido hasta la fecha</div>
-          <div class="encabezado-info">{{ actualProperty.property.invested  | currency:'':'symbol-narrow':'1.0-0' }}</div>
+          <div class="encabezado-info">{{ actualProperty.property.min_invested  | currency:'':'symbol-narrow':'1.0-0' }}</div>
         </div>
+
         <div class="font-lato px-3 separador-izq text-left">
           <div class="encabezado-title">Retorno</div>
-          <div class="encabezado-info">0%</div>
+          <div class="encabezado-info d-flex flex-col" *ngIf="id_project == 'nido_de_agua_etapa_1'">+15%
+            <span class = "fuente-mini-cont">
+              E.A
+              <img class = "mb-1 d-absolute" width="13" height="13" style = "top: -0.5rem;" src="/assets/icon/infocircle.svg">
+            </span>
+          </div>
+          <div class="encabezado-info  d-flex flex-col" *ngIf="id_project == 'indie_studio_01'">+12%
+            <span class = "fuente-mini-cont">
+              E.A
+              <img class = "mb-1 d-absolute" width="13" height="13" style = "top: -0.5rem;" src="/assets/icon/infocircle.svg">
+            </span>
+          </div>
         </div>
+
+
         <div class="font-lato px-3 separador-izq text-left">
           <div class="encabezado-title">Rentas</div>
           <div class="encabezado-info">-</div>
         </div>
+
+
         <div class="font-lato px-3 separador-izq text-left">
           <div class="encabezado-title">Units disponibles</div>
-          <div class="encabezado-info">{{actualProperty.property.available_shares}}</div>
+          <div class="encabezado-info">{{actualProperty.property.available_shares == 0 ? '-' : actualProperty.property.available_shares}}</div>
         </div>
+
+
         <div class="font-lato px-3 separador-izq text-left">
           <div class="encabezado-title">Valor por Unit</div>
           <div class="encabezado-info">
@@ -44,7 +63,7 @@
                 alt="qualification"
               />
               <div class="ml-2 d-flex align-items-center">
-                {{ actualProperty.property.rate }}
+                {{ actualProperty.property.rate | number: '1.1-1' }}
               </div>
             </div>
           </div>
@@ -75,25 +94,32 @@
 
             <div class="d-flex justify-content-between seccion-info-inversion">
               <div class="info-inversion">Etapa</div>
-              <div class="info-inversion"></div>
+              <div class="info-inversion" *ngIf = "id_project == 'nido_de_agua_etapa_1'"> Etapa 1 </div>
+              <div class="info-inversion" *ngIf = "id_project == 'indie_studio_01'"> Finalizado </div>
             </div>
 
-            <div class="d-flex justify-content-between seccion-info-inversion">
-              <div class="info-inversion">Cupo de inversión</div>
-              <div class="info-inversion">{{ actualProperty.property.invested | number }} </div>
+            <div class="">
+              <div class="d-flex justify-content-between seccion-info-inversion">
+                <div class="info-inversion">Cupo de inversión</div>
+                <div class="info-inversion">{{ actualProperty.property.min_invested | number }} </div>
+              </div>
+              <div class="d-flex justify-content-between align-items-center" *ngIf = "id_project == 'indie_studio_01'">
+                <div class = "barra my-3"></div>
+                <div class="info-inversion">100%</div>
+              </div>
             </div>
 
             <div class="d-flex justify-content-between seccion-info-inversion">
               <div class="info-inversion">Estado del proyecto</div>
               <div class="info-inversion" *ngIf = "actualProperty.property.is_completed">Completado</div>
-              <div class="info-inversion" *ngIf = "!actualProperty.property.is_completed">No completado</div>
+              <div class="info-inversion" *ngIf = "!actualProperty.property.is_completed">En proceso</div>
             </div>
 
             <div
               class="d-flex justify-content-between seccion-info-inversion border border-0"
             >
               <div class="info-inversion">Detalles del proyecto</div>
-              <div class="info-inversion"></div>
+              <div class="info-inversion">Aprobado</div>
             </div>
           </div>
         </div>
@@ -137,102 +163,168 @@
   <mat-tab label="Detalles de la inversión" labelClass="color: black;">
     <div class="contenedor-principal cursor-default" *ngIf="actualProperty">
 
-      <div class="d-flex">
-        <div class="encabezado-detalles-sec d-flex justify-content-between col-8">
+      <!-- NIDO -->
+      <div class="d-flex" *ngIf = "id_project == 'nido_de_agua_etapa_1'">
+        <div class="encabezado-detalles-sec d-flex justify-content-between col-9">
+
+          <div class="font-lato px-3 text-left">
+            <div class="encabezado-title">Monto Invertido</div>
+            <div class="encabezado-info">{{ actualProperty.payment  | currency:'':'symbol-narrow':'1.0-0' }}</div>
+          </div>
+
+          <div class="font-lato px-3 separador-izq text-left">
+            <div class="encabezado-title">Units Propios</div>
+            <div class="encabezado-info"> {{actualProperty.shares }} </div>
+          </div>
+
+          <div class="font-lato px-3 separador-izq text-left">
+            <div class="encabezado-title">Compra de Unit</div>
+            <div class="encabezado-info"> - </div>
+          </div>
+
+          <div class="font-lato px-3 separador-izq text-left">
+            <div class="encabezado-title">Rentas</div>
+            <div class="encabezado-info"> - </div>
+          </div>
+
+        </div>
+
+        <div class="bg-rojizo d-flex justify-content-between col-4">
+          <div class="font-lato px-3 separador-izq text-left">
+            <div class="encabezado-title">Porcentaje de valorización</div>
+            <div class="encabezado-info"> -5% </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INDIE -->
+      <div class="d-flex" *ngIf = "id_project == 'indie_studio_01'">
+        <div class="encabezado-detalles-sec d-flex justify-content-between col-8 bg-sec">
           <div class="font-lato px-3 text-left">
             <div class="encabezado-title">Monto Invertido</div>
             <div class="encabezado-info">{{ actualProperty.payment  | currency:'':'symbol-narrow':'1.0-0' }}</div>
           </div>
           <div class="font-lato px-3 separador-izq text-left">
             <div class="encabezado-title">Units Propios</div>
-            <div class="encabezado-info"> {{actualProperty.shares | number}} </div>
+            <div class="encabezado-info"> {{actualProperty.shares }} </div>
           </div>
           <div class="font-lato px-3 separador-izq text-left">
             <div class="encabezado-title">Compra de Unit</div>
-            <div class="encabezado-info"> - </div> <!--TODO:-->
+            <div class="encabezado-info"> - </div>
           </div>
           <div class="font-lato px-3 separador-izq text-left">
             <div class="encabezado-title">Rentas</div>
-            <div class="encabezado-info"> - </div> <!--TODO:-->
+            <div class="encabezado-info"> - </div>
           </div>
 
         </div>
 
-        <div class="bg-rojizo d-flex justify-content-between col-6">
+        <div class="bg-turquesa d-flex justify-content-between col-6">
           <div class="font-lato px-3 separador-izq text-left">
             <div class="encabezado-title">Porcentaje de valorización</div>
-            <div class="encabezado-info"> 0% </div> <!--TODO:-->
+            <div class="encabezado-info"> 0% </div>
           </div>
           <div class="font-lato px-3 separador-izq text-left">
             <div class="encabezado-title">Valorización participación</div>
-            <div class="encabezado-info"> {{0| currency:'':'symbol-narrow':'1.0-0'}} </div><!--TODO:-->
+            <div class="encabezado-info"> {{0| currency:'':'symbol-narrow':'1.0-0'}} COP</div>
           </div>
         </div>
       </div>
 
 
-
-
       <div class="d-flex">
         <div class="d-flex">
-          <div class="desc-pdf-cont">
-            <div class="title-project mb-3">Contratos de mandato</div>
-            <div class = "d-flex justify-content-between text-pdf-desc" (click) = "downloadContract()">
-              <div>
-                {{filename}}
-              </div>
+          <div class="">
 
-              <svg class="svg-download" width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
-                <path d="M14.375 15.0938H17.7891C20.2598 15.0938 22.2812 14.141 22.2812 11.6977C22.2812 9.25436 19.9004 8.39725 17.9688 8.30156C17.5694 4.48051 14.7793 2.15625 11.5 2.15625C8.40039 2.15625 6.40406 4.21322 5.75 6.25312C3.05469 6.50918 0.71875 7.86492 0.71875 10.6734C0.71875 13.482 3.14453 15.0938 6.10938 15.0938H8.625M8.625 17.9732L11.5 20.8438L14.375 17.9732M11.5 10.0625V20.1263"
-                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                </path>
-              </svg>
+            <div class="d-flex" *ngIf = "id_project == 'indie_studio_01'">
+
+              <a class="reservas-indie" target="_blank" href = "https://hotels.cloudbeds.com/reservation/BTHiNc#promo=INDIE-LOKL23">
+                <img class = "mr-2" src="/assets/icon/indie-icon.svg" width="30" height="30" alt=""> Reserva en <br> Indie Universe
+              </a>
+              <a class="reporte-indie" target="_blank" href = "https://app.hubspot.com/documents/21293159/view/488762757?accessId=5d2dc2">
+                <img class = "mr-2" src="/assets/icon/report-icon.svg" width="30" height="30" alt=""> Reporte <br> Trimestral
+              </a>
+
             </div>
-          </div>
-          <div class="pays-per-s">
 
+            <div class="desc-pdf-cont">
+              <div class="title-project mb-3">Contratos de mandato</div>
+              <div class = "d-flex justify-content-between text-pdf-desc" (click) = "downloadContract()">
+                <div>
+                  {{filename}}
+                </div>
+
+                <svg class="svg-download" width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
+                  <path d="M14.375 15.0938H17.7891C20.2598 15.0938 22.2812 14.141 22.2812 11.6977C22.2812 9.25436 19.9004 8.39725 17.9688 8.30156C17.5694 4.48051 14.7793 2.15625 11.5 2.15625C8.40039 2.15625 6.40406 4.21322 5.75 6.25312C3.05469 6.50918 0.71875 7.86492 0.71875 10.6734C0.71875 13.482 3.14453 15.0938 6.10938 15.0938H8.625M8.625 17.9732L11.5 20.8438L14.375 17.9732M11.5 10.0625V20.1263"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  </path>
+                </svg>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="pays-per-s" *ngIf = "id_project == 'nido_de_agua_etapa_1' && subscriptionData">
             <div class="pagos-por-suscripcion">Pagos por suscripción</div>
 
-            <div class="muted-simple">Cuotas mensuales (- meses) </div> <!--TODO:-->
+            <div class="muted-simple">Cuotas mensuales ( {{subscriptionData.installments.length}} meses) </div>
 
-            <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center" *ngFor="let cuota of cuotasAprobada">
               <div class="circle green"></div>
-              <div class = "d-flex justify-content-between cont-cuota">
-                <div class="">Fecha cuota</div>
-                <div class="green-text">{{0 | currency:'':'symbol-narrow':'1.0-0'}}</div>
-              </div>
-            </div>
-            <div class="d-flex align-items-center">
-              <div class="circle green"></div>
-              <div class = "d-flex justify-content-between cont-cuota" style = "border-bottom: 0.5px solid rgb(209 213 219)">
-                <div class="">Fecha otra cuota</div>
-                <div class="green-text">{{0 | currency:'':'symbol-narrow':'1.0-0'}}</div>
+              <div class = "d-flex justify-content-between cont-cuota " style = "border-bottom: 0.5px solid rgb(209 213 219)">
+                <div class="">{{cuota.installment_date.replace('-', '/').replace('-', '/')}}</div>
+                <div class="green-text">{{cuota.installment_value | currency:'':'symbol-narrow':'1.0-0'}}</div>
               </div>
             </div>
 
             <div class="d-flex justify-content-between mt-3 mb-3">
               <div class="muted-simple">Total pagado</div>
-              <div class="muted-simple">(suma cuotas)</div> <!--TODO:-->
+              <div class="muted-simple mr-3">{{sumaCuotasPagadas | currency:'':'symbol-narrow':'1.0-0'}}</div>
             </div>
 
             <div class="cont-cuotas-futuras">
-              <div class="mb-2 ml-2">Próximo pago</div>
+              <div class="muted-simple">Próximo pago</div>
 
               <div class="d-flex align-items-center">
                 <div class="circle red"></div>
-                <div class="d-flex justify-content-between cont-cuota">
-                  <div class="">fecha prox cuota</div>
-                  <div class="">{{0 | currency:'':'symbol-narrow':'1.0-0'}}</div>
+                <div class="d-flex justify-content-between cont-cuota " >
+                  <div class=""> {{cuotasPendientes[0].installment_date.replace('-', '/').replace('-', '/')}} </div>
+                  <div class="">{{cuotasPendientes[0].installment_value | currency:'':'symbol-narrow':'1.0-0'}}</div>
                 </div>
 
               </div>
 
               <div class="d-flex justify-content-between align-items-center" style="margin-left: 2.5rem">
                 <div class="">Pago automático</div>
-                <button class = "boton-pagar">Pagar ahora</button>
+                <button class = "boton-pagar mr-2" (click)="pagarCuotaProx()" >Pagar ahora</button>
               </div>
             </div>
 
+          </div>
+
+          <div class="pays-per-s padding-report" *ngIf = "id_project == 'indie_studio_01' && infoPMS ">
+            <div class = "pagos-por-suscripcion m-0"> Reporte Diario </div>
+
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="desc-title"> Dinero recaudado </div>
+              <div class="desc-text"> {{infoPMS.recaudo_p}} </div> <!-- TODO: -->
+            </div>
+            <hr>
+
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="desc-title"> Ocupación </div>
+              <div class="desc-text"> {{infoPMS.percent_occupied}} </div> <!-- TODO: -->
+            </div>
+
+            <div style = "font-size:.875rem;line-height:1.25rem;color:rgb(133 129 129)">Historico {{infoPMS.Fecha.substring(0, 4)}}</div>
+            <hr>
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="desc-title"> Habitaciones ocupadas </div>
+              <div class="desc-text"> {{infoPMS.ocupadas}} </div> <!-- TODO: -->
+            </div>
+
+            <button class="recomendar-indie" type="button">Recomendar Indie</button>
           </div>
         </div>
       </div>

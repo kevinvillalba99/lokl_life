@@ -4,6 +4,8 @@ import { Observable, map, tap, of } from 'rxjs';
 import { UserData, UserDataResponse } from '../interfaces/userDataResponse.interface';
 import * as jwtDecode from 'jwt-decode';
 import { PropertiesResponse, PropertyData } from '../interfaces/PropertiesResponse.interface';
+import { OwnerSubscriptionData, OwnerSubscriptionResponse } from '../interfaces/OwnerSubscriptionResponse.interface';
+import { InfoPMS } from '../interfaces/InfoPMS.interface';
 
 @Injectable({providedIn: 'root'})
 
@@ -13,6 +15,8 @@ export class UserApiService {
 
   private propertiesData: PropertyData[] = [];
   private userData?: UserData;
+  private ownerSubscriptionData?: OwnerSubscriptionData;
+  private infoPMS?: InfoPMS;
 
   private executeQuery<T>( endPoint: string, headers: HttpHeaders ): any{
 
@@ -44,5 +48,31 @@ export class UserApiService {
         tap( (resp: any) => this.propertiesData = resp ),
       )
   }
+
+  getOwnerSubscription(): Observable<OwnerSubscriptionData>{
+    if( this.ownerSubscriptionData ) return of( this.ownerSubscriptionData )
+    const token = localStorage.getItem('token')
+    const header = new HttpHeaders()
+    if(token) header.set('Authorization', `Bearer ${token}`)
+    return this.executeQuery<OwnerSubscriptionResponse>('ownerSubscription', header)
+      .pipe(
+        map( ({data}) => data ),
+        tap( (resp: any) => this.ownerSubscriptionData = resp ),
+      )
+  }
+
+  getInfoPMS(): Observable<InfoPMS> {
+    if( this.infoPMS ) return of( this.infoPMS )
+    const token = localStorage.getItem('token')
+    const header = new HttpHeaders()
+    if(token) header.set('Authorization', `Bearer ${token}`)
+
+    return this.http.get('https://apidash.lokl.life/get_info_pms', {headers: header})
+      .pipe(
+        tap( (resp: any) => this.infoPMS = resp ),
+      )
+  }
+
+
 
 }

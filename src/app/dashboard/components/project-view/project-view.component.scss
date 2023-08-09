@@ -1,3 +1,6 @@
+
+
+
 .contenedor-principal{
   width: fit-content;
 }
@@ -210,6 +213,21 @@
   margin-left: 0;
 }
 
+.bg-turquesa{
+  background-color: #C8BFFF;
+  border-top-right-radius: 0.375rem;
+  border-bottom-right-radius: 0.375rem;
+  height: 86px;
+  font-family: Noto Sans, sans-serif;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 1rem!important;
+  margin-top: 1rem!important;
+  margin-left: 0;
+}
+
 .encabezado-detalles-sec{
   background-color: rgb(235 226 221);
   border-top-left-radius: 0.375rem;
@@ -286,7 +304,8 @@
   display: flex;
   flex-direction: column;
   border-radius: 0.375rem;
-  padding: 1rem!important
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .boton-pagar{
@@ -302,4 +321,106 @@
   padding-right: .6rem!important;
   padding-bottom: 0.2rem!important;
   padding-top: 0.2rem!important;
+}
+
+.fuente-mini-cont{
+  position: relative;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  margin-bottom: 2px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin-left: 0.5rem;
+}
+
+.bg-sec{
+  background-color: #DFDDEB;
+}
+
+
+.reservas-indie{
+  font-weight:400;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  text-align: left;
+  background-color: rgb(235 226 221);
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: 155px;
+  display: flex;
+  margin-bottom: 20px;
+  margin-right: 1.25rem;
+  padding-bottom: 1rem!important;
+  padding-top: 1rem!important;
+  border-radius: .25rem;
+  text-decoration: none;
+  color: #000;
+}
+
+.reporte-indie{
+  font-weight: 400;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  text-align: left;
+  background-color: rgb(228 228 228);
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: 155px;
+  display: flex;
+  margin-bottom: 20px;
+  margin-right: 1.25rem;
+  padding-bottom: 1rem!important;
+  padding-top: 1rem!important;
+  border-radius: .25rem;
+  text-decoration: none;
+  color: #000;
+}
+
+.desc-title{
+  font-weight: 900;
+  font-size: 1rem;
+  line-height: 1.75rem;
+  font-family: Lato,sans-serif;
+}
+
+.desc-text{
+  color: rgb(80 80 80)
+}
+
+.padding-report{
+  padding-left: 3rem!important;
+  padding-right: 3rem!important;
+  padding-bottom: 2.5rem!important;
+  padding-top: 2.5rem!important;
+}
+
+.recomendar-indie{
+  font-weight: 500;
+  background-color: #DFDDEB;
+  border: 0;
+  border-radius: 999px;
+  padding-bottom: 0.625rem;
+  padding-top: 0.625rem;
+  font-size: .7rem;
+  line-height: 1rem;
+  text-align: center!important;
+}
+
+.recomendar-indie:focus{
+  background-color:rgb(55 65 81);
+}
+
+.recomendar-indie:hover{
+  background-color:rgb(55 65 81);
+}
+
+.barra{
+  width: 85%;
+  background-color: black;
+  color: #fff;
+  height: 10px;
+  border-radius: 999px;
 }
