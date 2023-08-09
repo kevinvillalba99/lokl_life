@@ -176,6 +176,8 @@
   padding: 30px;
   border-radius: 1rem;
   background-color: #fff;
+  margin-right: 1.25rem;
+  height: fit-content;
 }
 
 .text-pdf-desc{
@@ -221,4 +223,83 @@
   margin-bottom: 1rem!important;
   margin-top: 1rem!important;
   margin-right: 0;
+}
+
+.pays-per-s{
+  width: 330px;
+  padding-top: 2.5rem;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  padding-bottom: 1.5rem!important;
+  padding-left: 1rem!important;
+  padding-right: 1rem!important;
+  border-radius: 1rem;
+}
+
+.pagos-por-suscripcion{
+  font-weight: 900;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-family: Lato,sans-serif;
+  margin-left: 2.5rem;
+  margin-bottom: 1rem!important;
+}
+
+.muted-simple{
+  color: rgb(156 163 175);
+  font-size: .875rem;
+  line-height: 1.25rem;
+  margin-left: 2.5rem;
+}
+
+.circle{
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  margin-left: 1rem!important;
+  margin-right: 1rem!important;
+}
+
+.red{
+  background-color: #D8232A
+}
+
+.green{
+  background-color: rgb(109 236 185);
+}
+
+.green-text{
+  color: rgb(27 211 137)
+}
+
+.cont-cuota{
+  padding-bottom: 1rem!important;
+  padding-top: 1rem!important;
+  width: 80%;
+}
+
+.cont-cuotas-futuras{
+  color: rgb(156 163 175);
+  background-color: rgb(243 244 246);
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.375rem;
+  padding: 1rem!important
+}
+
+.boton-pagar{
+  transition-timing-function: cubic-bezier(.4,0,.2,1);
+  transition-duration: .3s;
+  font-weight: 500;
+  font-size: .75rem;
+  line-height: 1rem;
+  border-radius: 9999px;
+  background-color: rgb(17 24 39);
+  color: #fff;
+  padding-left: .6rem!important;
+  padding-right: .6rem!important;
+  padding-bottom: 0.2rem!important;
+  padding-top: 0.2rem!important;
 }

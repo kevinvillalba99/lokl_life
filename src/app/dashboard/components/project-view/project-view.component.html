@@ -7,23 +7,23 @@
   <mat-tab label="Detalles del proyecto">
     <div class="contenedor-principal cursor-default" *ngIf="actualProperty">
       <div class="encabezado-detalles d-flex justify-content-between">
-        <div class="font-lato px-3 text-center">
+        <div class="font-lato px-3 text-left">
           <div class="encabezado-title">Invertido hasta la fecha</div>
           <div class="encabezado-info">{{ actualProperty.property.invested  | currency:'':'symbol-narrow':'1.0-0' }}</div>
         </div>
-        <div class="font-lato px-3 separador-izq text-center">
+        <div class="font-lato px-3 separador-izq text-left">
           <div class="encabezado-title">Retorno</div>
           <div class="encabezado-info">0%</div>
         </div>
-        <div class="font-lato px-3 separador-izq text-center">
+        <div class="font-lato px-3 separador-izq text-left">
           <div class="encabezado-title">Rentas</div>
           <div class="encabezado-info">-</div>
         </div>
-        <div class="font-lato px-3 separador-izq text-center">
+        <div class="font-lato px-3 separador-izq text-left">
           <div class="encabezado-title">Units disponibles</div>
           <div class="encabezado-info">{{actualProperty.property.available_shares}}</div>
         </div>
-        <div class="font-lato px-3 separador-izq text-center">
+        <div class="font-lato px-3 separador-izq text-left">
           <div class="encabezado-title">Valor por Unit</div>
           <div class="encabezado-info">
             {{ actualProperty.property.share_value | currency:'':'symbol-narrow':'1.0-0'}}
@@ -138,33 +138,33 @@
     <div class="contenedor-principal cursor-default" *ngIf="actualProperty">
 
       <div class="d-flex">
-        <div class="encabezado-detalles-sec d-flex justify-content-between col-7">
-          <div class="font-lato px-3 text-center">
+        <div class="encabezado-detalles-sec d-flex justify-content-between col-8">
+          <div class="font-lato px-3 text-left">
             <div class="encabezado-title">Monto Invertido</div>
             <div class="encabezado-info">{{ actualProperty.payment  | currency:'':'symbol-narrow':'1.0-0' }}</div>
           </div>
-          <div class="font-lato px-3 separador-izq text-center">
+          <div class="font-lato px-3 separador-izq text-left">
             <div class="encabezado-title">Units Propios</div>
             <div class="encabezado-info"> {{actualProperty.shares | number}} </div>
           </div>
-          <div class="font-lato px-3 separador-izq text-center">
+          <div class="font-lato px-3 separador-izq text-left">
             <div class="encabezado-title">Compra de Unit</div>
             <div class="encabezado-info"> - </div> <!--TODO:-->
           </div>
-          <div class="font-lato px-3 separador-izq text-center">
+          <div class="font-lato px-3 separador-izq text-left">
             <div class="encabezado-title">Rentas</div>
             <div class="encabezado-info"> - </div> <!--TODO:-->
           </div>
 
         </div>
 
-        <div class="bg-rojizo d-flex justify-content-between col-5">
-          <div class="font-lato px-3 separador-izq text-center">
+        <div class="bg-rojizo d-flex justify-content-between col-6">
+          <div class="font-lato px-3 separador-izq text-left">
             <div class="encabezado-title">Porcentaje de valorización</div>
             <div class="encabezado-info"> 0% </div> <!--TODO:-->
           </div>
-          <div class="font-lato px-3 separador-izq text-center">
-            <div class="encabezado-title">Valor por Unit</div>
+          <div class="font-lato px-3 separador-izq text-left">
+            <div class="encabezado-title">Valorización participación</div>
             <div class="encabezado-info"> {{0| currency:'':'symbol-narrow':'1.0-0'}} </div><!--TODO:-->
           </div>
         </div>
@@ -174,7 +174,7 @@
 
 
       <div class="d-flex">
-        <div class="d-flex flex-column">
+        <div class="d-flex">
           <div class="desc-pdf-cont">
             <div class="title-project mb-3">Contratos de mandato</div>
             <div class = "d-flex justify-content-between text-pdf-desc" (click) = "downloadContract()">
@@ -188,6 +188,51 @@
                 </path>
               </svg>
             </div>
+          </div>
+          <div class="pays-per-s">
+
+            <div class="pagos-por-suscripcion">Pagos por suscripción</div>
+
+            <div class="muted-simple">Cuotas mensuales (- meses) </div> <!--TODO:-->
+
+            <div class="d-flex align-items-center">
+              <div class="circle green"></div>
+              <div class = "d-flex justify-content-between cont-cuota">
+                <div class="">Fecha cuota</div>
+                <div class="green-text">{{0 | currency:'':'symbol-narrow':'1.0-0'}}</div>
+              </div>
+            </div>
+            <div class="d-flex align-items-center">
+              <div class="circle green"></div>
+              <div class = "d-flex justify-content-between cont-cuota" style = "border-bottom: 0.5px solid rgb(209 213 219)">
+                <div class="">Fecha otra cuota</div>
+                <div class="green-text">{{0 | currency:'':'symbol-narrow':'1.0-0'}}</div>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between mt-3 mb-3">
+              <div class="muted-simple">Total pagado</div>
+              <div class="muted-simple">(suma cuotas)</div> <!--TODO:-->
+            </div>
+
+            <div class="cont-cuotas-futuras">
+              <div class="mb-2 ml-2">Próximo pago</div>
+
+              <div class="d-flex align-items-center">
+                <div class="circle red"></div>
+                <div class="d-flex justify-content-between cont-cuota">
+                  <div class="">fecha prox cuota</div>
+                  <div class="">{{0 | currency:'':'symbol-narrow':'1.0-0'}}</div>
+                </div>
+
+              </div>
+
+              <div class="d-flex justify-content-between align-items-center" style="margin-left: 2.5rem">
+                <div class="">Pago automático</div>
+                <button class = "boton-pagar">Pagar ahora</button>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
