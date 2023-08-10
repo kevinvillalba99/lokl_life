@@ -7,11 +7,13 @@ import { UserData } from '../../interfaces/userDataResponse.interface';
 import { Installment, OwnerSubscriptionData } from '../../interfaces/OwnerSubscriptionResponse.interface';
 import { InfoPMS } from '../../interfaces/InfoPMS.interface';
 
+declare var YT: any;
 @Component({
   selector: 'app-project-view',
   templateUrl: './project-view.component.html',
   styleUrls: ['./project-view.component.scss']
 })
+
 export class ProjectViewComponent implements OnInit {
 
   propertiesData?: PropertyData[];
@@ -19,6 +21,8 @@ export class ProjectViewComponent implements OnInit {
   userData?: UserData;
   subscriptionData?: OwnerSubscriptionData;
   infoPMS?: InfoPMS;
+
+  idVideo = ''
 
   cuotasAprobada: Installment[] = [];
   cuotasPendientes: Installment[] = [];
@@ -34,14 +38,16 @@ export class ProjectViewComponent implements OnInit {
   repVideo: boolean = false;
 
   constructor(private routing: ActivatedRoute, private api: UserApiService, private router: Router) {
-    this.api.getProperties().subscribe( resp => this.propertiesData = resp )
+    this.api.getProperties().subscribe( resp => {
+      this.propertiesData = resp
+
+    } )
 
     let token: any = localStorage.getItem('token');
     if(token) {
       this.api.getUserByToken(token).subscribe( resp => this.userData = resp )
       this.api.getOwnerSubscription().subscribe( resp => {
         this.subscriptionData = resp;
-        console.log(this.subscriptionData);
         this.cuotasAprobada = resp.installments.filter(cuota => cuota.installment_state == "APPROVED");
         this.cuotasPendientes = resp.installments.filter(cuota => cuota.installment_state == "PENDING");
         this.sumaCuotasPagadas = this.cuotasAprobada.reduce((accumulator, item) => accumulator + parseInt(item.installment_value), 0)
@@ -59,11 +65,11 @@ export class ProjectViewComponent implements OnInit {
         setTimeout( () => {
           this.updateProperty(resp)
           if( !this.actualProperty ) this.router.navigateByUrl('dashboard')
-          console.log('redireccionando');
         }, 1000 )
       }
     }
     )
+
     this.loadYoutubePlayerAPI();
   }
 
@@ -73,6 +79,9 @@ export class ProjectViewComponent implements OnInit {
 
     this.id_project = resp['lokl_id']
     this.filename = `${this.actualProperty?.docuSigned[0]._id.substring(0, 5)}_contrato_mandato_${this.userData?.first_name}`
+    this.idVideo = this.actualProperty!.property.videos[0].path.split('/')
+      [this.actualProperty!.property.videos[0].path.split('/').length - 1]
+      console.log(this.idVideo);
   }
 
   back(){
@@ -86,7 +95,10 @@ export class ProjectViewComponent implements OnInit {
     const firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
 
+
+
     (window as any).onYouTubeIframeAPIReady = () => {
+      console.log('paso 2');
       this.createPlayer();
     };
   }
@@ -103,8 +115,8 @@ export class ProjectViewComponent implements OnInit {
   downloadContract(){
     const link = document.createElement('a');
     link.href = this.actualProperty?.docuSigned[0].url!;
-    console.log(this.filename+".pdf");
-    link.download = this.filename+".pdf"; //TODO: Nombre del pdf
+    const nombre: string = this.filename+".pdf";
+    link.download = nombre;
     link.target = '_blank';
     document.body.appendChild(link);
     link.click();

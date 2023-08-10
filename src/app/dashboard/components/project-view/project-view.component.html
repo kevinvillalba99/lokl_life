@@ -143,17 +143,52 @@
 
               </div>
 
-              <div class="video-container youtube-player" *ngIf = "repVideo" id = "youtube-player">
+              <!-- id_project == 'nido_de_agua_etapa_1' ? 'VogBkJMkJhY' : 'VabGYV9wMzs' -->
+
+              <div *ngIf = "repVideo" class = "reproductor-youtube">
                 <iframe id="ytplayer" type="text/html" width="100%" height="100%"
-                    [src]="actualProperty.property.videos[0].path" frameborder="0"
-                    allowfullscreen></iframe>
+                        src="https://www.youtube.com/embed/VogBkJMkJhY?autoplay=1" frameborder="0"
+                        allowfullscreen *ngIf = "id_project == 'nido_de_agua_etapa_1'"
+                ></iframe>
+
+                <iframe id="ytplayer" type="text/html" width="100%" height="100%"
+                src="https://www.youtube.com/embed/VabGYV9wMzs?autoplay=1" frameborder="0"
+                allowfullscreen *ngIf = "id_project == 'indie_studio_01'"
+                ></iframe>
               </div>
 
             </div>
 
+          </div>
 
+          <div class="d-flex justify-content-between" *ngIf = "id_project == 'nido_de_agua_etapa_1'">
+
+            <img src="/assets/img/img-nido/nido-rectan.bb56dd3ff4bd353b4ce5.png" alt="" class = "img-muestras" style = "width: 65%">
+
+            <div style = "position: relative;">
+              <div class="texto-img-">
+                <div class="title-img">+8</div>
+                <a href="#">ver más fotos</a>
+              </div>
+              <img src="/assets/img/img-nido/nido-mini.6daecb0d7d178711941b.png" alt="" class = "img-muestras">
+            </div>
 
           </div>
+
+          <div class="d-flex justify-content-between" *ngIf = "id_project == 'indie_studio_01'">
+
+            <img src="/assets/img/img-indie/rectangle-img-indie.4b24aa5146d3b3ac5413.jpg" alt="" class = "img-muestras" style = "width: 65%">
+
+            <div style = "position: relative;">
+              <div class="texto-img-">
+                <div class="title-img">+8</div>
+                <a href="#">ver más fotos</a>
+              </div>
+              <img src="/assets/img/img-indie/mini-img-indie.b1e8e37a0090a6b03898.jpg" alt="" class = "img-muestras">
+            </div>
+
+          </div>
+
         </div>
 
       </div>
