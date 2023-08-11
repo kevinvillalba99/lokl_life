@@ -1,0 +1,455 @@
+
+
+
+.contenedor-principal{
+  width: fit-content;
+}
+
+.encabezado-detalles{
+  background-color: rgb(235 226 221);
+  border-radius: 0.375rem;
+  height: 86px;
+  font-family: Noto Sans, sans-serif;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 1rem!important;
+  margin-top: 1rem!important;
+}
+
+.font-lato{
+  font-family: Lato,sans-serif;
+}
+
+.encabezado-title{
+  font-size: .875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+}
+
+.encabezado-info{
+  font-weight: 800;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.contenedor-details{
+  width: 380px;
+  padding: 30px;
+  margin-right: 20px;
+  border-radius: 1rem;
+  background-color: #fff;
+}
+
+.title-project{
+  font-weight: 900;
+  font-size: 21px;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  font-family: Lato,sans-serif;
+}
+
+.description-text{
+  font-size: 11px;
+  font-weight: 100;
+  width: 95%;
+  margin-bottom: 30px;
+  font-family: Noto Sans,sans-serif;
+}
+
+.investment-text{
+  font-weight: 700;
+  font-size: 18px;
+  margin: 0;
+  font-family: Noto Sans,sans-serif;
+  padding: 0;
+}
+.investment-title{
+  font-weight: 400;
+  font-size: 12px;
+  margin: 0;
+  font-family: Noto Sans,sans-serif;
+  padding: 0;
+}
+
+.contenedor-info-inversion{
+  margin-top: 20px;
+}
+
+.seccion-info-inversion{
+  padding-bottom: 15px;
+  padding-top: 15px;
+  border-bottom : 1px solid rgb(209 213 219);
+  width: 100%;
+}
+
+.info-inversion{
+  font-size: 14px;
+  color: rgb(156 163 175);
+}
+
+.contenedor-multimedia{
+  display: block;
+}
+
+.cursor-pointer{
+  cursor: pointer;
+}
+
+.frm-yt{
+  width: 640px;
+  height: 400px;
+}
+
+.cursor-default{
+  cursor:default;
+}
+
+.vista-video{
+  position: relative;
+  margin-bottom: 1rem;
+  width: 640px;
+  height: 400px;
+}
+
+.img-miniatura{
+  width: 640px;
+  height: 400px;
+  border-radius: 0.5rem;
+}
+
+.contenedor-miniatura{
+  cursor: pointer;
+  position:absolute;
+  color: #fff;
+  font-weight: 800;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+.contenedor-miniatura{
+  cursor: pointer;
+  position:absolute;
+  color: #fff;
+  font-weight: 800;
+  padding: 2rem;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+.texto-calculadora{
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-family: Sans,sans-serif;
+}
+
+.texto-miniatura{
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+}
+
+.sello-miniatura{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.video-container {
+  position: sticky;
+  overflow: hidden;
+}
+
+.desc-pdf-cont{
+  width: 330px;
+  padding: 30px;
+  border-radius: 1rem;
+  background-color: #fff;
+  margin-right: 1.25rem;
+  height: fit-content;
+}
+
+.text-pdf-desc{
+  color: rgb(107 114 128);
+  cursor: pointer;
+  padding-bottom: 1rem!important;
+  padding-top: 1rem!important;
+}
+
+.svg-download{
+  color: rgb(107 114 128);
+}
+
+.svg-download:hover,  .svg-download:focus{
+  color: #000;
+}
+
+.bg-rojizo{
+  background-color: #E3BFBF;
+  border-top-right-radius: 0.375rem;
+  border-bottom-right-radius: 0.375rem;
+  height: 86px;
+  font-family: Noto Sans, sans-serif;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 1rem!important;
+  margin-top: 1rem!important;
+  margin-left: 0;
+}
+
+.bg-turquesa{
+  background-color: #C8BFFF;
+  border-top-right-radius: 0.375rem;
+  border-bottom-right-radius: 0.375rem;
+  height: 86px;
+  font-family: Noto Sans, sans-serif;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 1rem!important;
+  margin-top: 1rem!important;
+  margin-left: 0;
+}
+
+.encabezado-detalles-sec{
+  background-color: rgb(235 226 221);
+  border-top-left-radius: 0.375rem;
+  border-bottom-left-radius: 0.375rem;
+  height: 86px;
+  font-family: Noto Sans, sans-serif;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 1rem!important;
+  margin-top: 1rem!important;
+  margin-right: 0;
+}
+
+.pays-per-s{
+  width: 330px;
+  padding-top: 2.5rem;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  padding-bottom: 1.5rem!important;
+  padding-left: 1rem!important;
+  padding-right: 1rem!important;
+  border-radius: 1rem;
+}
+
+.pagos-por-suscripcion{
+  font-weight: 900;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-family: Lato,sans-serif;
+  margin-left: 2.5rem;
+  margin-bottom: 1rem!important;
+}
+
+.muted-simple{
+  color: rgb(156 163 175);
+  font-size: .875rem;
+  line-height: 1.25rem;
+  margin-left: 2.5rem;
+}
+
+.circle{
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  margin-left: 1rem!important;
+  margin-right: 1rem!important;
+}
+
+.red{
+  background-color: #D8232A
+}
+
+.green{
+  background-color: rgb(109 236 185);
+}
+
+.green-text{
+  color: rgb(27 211 137)
+}
+
+.cont-cuota{
+  padding-bottom: 1rem!important;
+  padding-top: 1rem!important;
+  width: 80%;
+}
+
+.cont-cuotas-futuras{
+  color: rgb(156 163 175);
+  background-color: rgb(243 244 246);
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.375rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.boton-pagar{
+  transition-timing-function: cubic-bezier(.4,0,.2,1);
+  transition-duration: .3s;
+  font-weight: 500;
+  font-size: .75rem;
+  line-height: 1rem;
+  border-radius: 9999px;
+  background-color: rgb(17 24 39);
+  color: #fff;
+  padding-left: .6rem!important;
+  padding-right: .6rem!important;
+  padding-bottom: 0.2rem!important;
+  padding-top: 0.2rem!important;
+}
+
+.fuente-mini-cont{
+  position: relative;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  margin-bottom: 2px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin-left: 0.5rem;
+}
+
+.bg-sec{
+  background-color: #DFDDEB;
+}
+
+
+.reservas-indie{
+  font-weight:400;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  text-align: left;
+  background-color: rgb(235 226 221);
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: 155px;
+  display: flex;
+  margin-bottom: 20px;
+  margin-right: 1.25rem;
+  padding-bottom: 1rem!important;
+  padding-top: 1rem!important;
+  border-radius: .25rem;
+  text-decoration: none;
+  color: #000;
+}
+
+.reporte-indie{
+  font-weight: 400;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  text-align: left;
+  background-color: rgb(228 228 228);
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: 155px;
+  display: flex;
+  margin-bottom: 20px;
+  margin-right: 1.25rem;
+  padding-bottom: 1rem!important;
+  padding-top: 1rem!important;
+  border-radius: .25rem;
+  text-decoration: none;
+  color: #000;
+}
+
+.desc-title{
+  font-weight: 900;
+  font-size: 1rem;
+  line-height: 1.75rem;
+  font-family: Lato,sans-serif;
+}
+
+.desc-text{
+  color: rgb(80 80 80)
+}
+
+.padding-report{
+  padding-left: 3rem!important;
+  padding-right: 3rem!important;
+  padding-bottom: 2.5rem!important;
+  padding-top: 2.5rem!important;
+}
+
+.recomendar-indie{
+  font-weight: 500;
+  background-color: #DFDDEB;
+  border: 0;
+  border-radius: 999px;
+  padding-bottom: 0.625rem;
+  padding-top: 0.625rem;
+  font-size: .7rem;
+  line-height: 1rem;
+  text-align: center!important;
+}
+
+.recomendar-indie:focus{
+  background-color:rgb(55 65 81);
+}
+
+.recomendar-indie:hover{
+  background-color:rgb(55 65 81);
+}
+
+.barra{
+  width: 85%;
+  background-color: black;
+  color: #fff;
+  height: 10px;
+  border-radius: 999px;
+}
+
+.reproductor-youtube{
+  width: 640px;
+  height: 400px;
+  border-radius: 1rem;
+}
+
+.texto-img-{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  align-items: center;
+  color: #fff;
+  padding: 2rem;
+  cursor: pointer;
+}
+
+.texto-img- a{
+  color: #fff;
+}
+
+.title-img{
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+  font-weight: 800;
+}

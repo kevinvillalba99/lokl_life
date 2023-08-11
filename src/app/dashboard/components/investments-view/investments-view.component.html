@@ -1,0 +1,17 @@
+<div>
+  <h2 class ="h2-principal"> Mis inversiones </h2>
+</div>
+
+<div *ngIf = "userProperties">
+  <div *ngIf = "userProperties.length == 0">
+    <p>Aun no tienes inversiones</p>
+  </div>
+
+  <div *ngIf = "userProperties.length > 0">
+    <app-inversion-cards [data] = "userProperties"></app-inversion-cards>
+  </div>
+</div>
+
+<div *ngIf = "!userProperties">
+  <p>Cargando inversiones...</p>
+</div>

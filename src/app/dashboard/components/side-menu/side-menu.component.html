@@ -1,0 +1,88 @@
+<div class="my-1 mx-3 main-container justify-content-center d-xl d-none d-md-flex">
+  <div class="text-center pt-5 justify-content-center mb-5" *ngIf = "userData">
+    <div class="position-relative mb-1">
+      <div
+        class="position-absolute top-50 w-100 h-100 text-center"
+        style="transform: translate(0%, -41%)"
+      >
+        <img src="/assets/IMAGEN-TEMPORAL.svg" class="profile-picture" />
+      </div>
+      <svg heigth="130" width="130">
+        <g transform="rotate(85 65 65)">
+          <circle
+            class="stroke-current"
+            stroke="url(#gradient)"
+            stroke-dasharray="374.424747816416 374.424747816416"
+            stroke-width="7"
+            fill="transparent"
+            stroke-linecap="round"
+            r="58"
+            cx="65"
+            cy="65"
+            style="stroke-dashoffset: 109.327"
+          ></circle>
+        </g>
+      </svg>
+    </div>
+
+    <div class="text-muted mb-2">Bienvenido de nuevo</div>
+
+    <div class="user-name mb-4">
+      {{ userData.first_name + " " + userData.last_name }}
+    </div>
+
+    <div class="mb-1" *ngIf = "!userData.profile_complete">
+      <button class="rounded-4 text-sm text-black profile-button">
+        10% Completar perfil
+      </button>
+    </div>
+
+
+    <hr>
+
+
+    <div class="row justify-content-center p-0 m-0" style="width: 160px">
+      <div class="col-11 codigo-referido mb-2">
+        {{userData.uniquecode}}
+      </div>
+
+      <div class="col-11 ind-codigo-referido p-0 mb-2">
+        Tu código de referidos
+      </div>
+
+      <div class="col-11 btn-shared d-flex justify-content-center text-sm">
+        <img src="/assets/icon/shared-icon.svg" class="mr-1" />
+        <div>Compartir</div>
+      </div>
+    </div>
+
+
+    <hr class = "mb-5">
+
+
+    <div class="d-flex flex-column" style="width: 150px">
+      <div class="d-flex justify-content-start align-items-center mb-3">
+        <img src="/assets/icon/invest-icon.svg" class="icon-option" />
+        <a href="#" class="ancor-option">Inversiones</a>
+      </div>
+
+      <div class="d-flex justify-content-start align-items-center mb-3">
+        <img src="/assets/icon/blog-icon.svg" class="icon-option" />
+        <a href="#" class="ancor-option">Blog</a>
+      </div>
+
+      <div class="d-flex justify-content-start align-items-center mb-3">
+        <img src="/assets/icon/whatsapp-iconsvg.svg" class="icon-option" />
+        <a href="#" class="ancor-option">Soporte</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="d-flex flex-column d-md-none responsive-profile" *ngIf = "userData">
+  <div class="user-name mt-2" style = "color: #ffffff">
+    {{userData.first_name + userData.last_name}}
+  </div>
+
+  <a href="#" style = "color:#FFCBD7" class = "mb-1">Completa tu perfil personal</a>
+</div>

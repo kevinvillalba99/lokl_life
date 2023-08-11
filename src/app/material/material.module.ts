@@ -34,8 +34,8 @@ import { CarouselModule } from 'primeng/carousel';
     MatCardModule,
     MatCheckboxModule,
     MatButtonModule,
-    CarouselModule
-
+    CarouselModule,
+    MatTabsModule,
   ],
   exports: [
     CommonModule,
@@ -49,7 +49,8 @@ import { CarouselModule } from 'primeng/carousel';
     MatSidenavModule,
     MatFormFieldModule,
     MatDatepickerModule,
-    CarouselModule
+    CarouselModule,
+    MatTabsModule,
   ],
 })
 export class MaterialModule {}
