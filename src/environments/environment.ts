@@ -11,8 +11,7 @@ export const environment = {
   owner_wompi_pse: '646fcef8c158685da367ec02',
   project_wompi_pse: '63261a94c8011a8a836fda23',
 
-  redirect_url_success_wompi_credit:
-    'https://develop-property.lokl.life/payment/successful',
+  redirect_url_success_wompi_credit: 'https://lokl.life/payment/successful',
   owner_wompi_credit: '64a6b2e7a604a10b8f557ca8',
   project_wompi_credit: '632511ecd407318f2592f945',
 
