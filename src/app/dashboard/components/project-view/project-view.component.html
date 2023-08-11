@@ -3,7 +3,7 @@
   Volver
 </div>
 
-<mat-tab-group [animationDuration]="0" [ngClass]=" { 'tabs-01': id_project == 'nido_de_agua_etapa_1', 'tabs-02': id_project == 'indie_studio_01' } " *ngIf="actualProperty">
+<mat-tab-group [animationDuration]="0" [ngClass]=" { 'tabs-01': id_project == 'nido_de_agua', 'tabs-02': id_project == 'indie_studio_01' } " *ngIf="actualProperty">
   <mat-tab label="Detalles del proyecto">
     <div class="contenedor-principal cursor-default" *ngIf="actualProperty">
       <div class="encabezado-detalles d-flex justify-content-between" [ngClass] = " { 'bg-sec': id_project == 'indie_studio_01' } ">
@@ -15,7 +15,7 @@
 
         <div class="font-lato px-3 separador-izq text-left">
           <div class="encabezado-title">Retorno</div>
-          <div class="encabezado-info d-flex flex-col" *ngIf="id_project == 'nido_de_agua_etapa_1'">+15%
+          <div class="encabezado-info d-flex flex-col" *ngIf="id_project == 'nido_de_agua'">+15%
             <span class = "fuente-mini-cont">
               E.A
               <img class = "mb-1 d-absolute" width="13" height="13" style = "top: -0.5rem;" src="/assets/icon/infocircle.svg">
@@ -94,7 +94,7 @@
 
             <div class="d-flex justify-content-between seccion-info-inversion">
               <div class="info-inversion">Etapa</div>
-              <div class="info-inversion" *ngIf = "id_project == 'nido_de_agua_etapa_1'"> Etapa 1 </div>
+              <div class="info-inversion" *ngIf = "id_project == 'nido_de_agua'"> Etapa 1 </div>
               <div class="info-inversion" *ngIf = "id_project == 'indie_studio_01'"> Finalizado </div>
             </div>
 
@@ -143,12 +143,12 @@
 
               </div>
 
-              <!-- id_project == 'nido_de_agua_etapa_1' ? 'VogBkJMkJhY' : 'VabGYV9wMzs' -->
+              <!-- id_project == 'nido_de_agua' ? 'VogBkJMkJhY' : 'VabGYV9wMzs' -->
 
               <div *ngIf = "repVideo" class = "reproductor-youtube">
                 <iframe id="ytplayer" type="text/html" width="100%" height="100%"
                         src="https://www.youtube.com/embed/VogBkJMkJhY?autoplay=1" frameborder="0"
-                        allowfullscreen *ngIf = "id_project == 'nido_de_agua_etapa_1'"
+                        allowfullscreen *ngIf = "id_project == 'nido_de_agua'"
                 ></iframe>
 
                 <iframe id="ytplayer" type="text/html" width="100%" height="100%"
@@ -161,7 +161,7 @@
 
           </div>
 
-          <div class="d-flex justify-content-between" *ngIf = "id_project == 'nido_de_agua_etapa_1'">
+          <div class="d-flex justify-content-between" *ngIf = "id_project == 'nido_de_agua'">
 
             <img src="/assets/img/img-nido/nido-rectan.bb56dd3ff4bd353b4ce5.png" alt="" class = "img-muestras" style = "width: 65%">
 
@@ -199,7 +199,7 @@
     <div class="contenedor-principal cursor-default" *ngIf="actualProperty">
 
       <!-- NIDO -->
-      <div class="d-flex" *ngIf = "id_project == 'nido_de_agua_etapa_1'">
+      <div class="d-flex" *ngIf = "id_project == 'nido_de_agua'">
         <div class="encabezado-detalles-sec d-flex justify-content-between col-9">
 
           <div class="font-lato px-3 text-left">
@@ -299,7 +299,7 @@
 
           </div>
 
-          <div class="pays-per-s" *ngIf = "id_project == 'nido_de_agua_etapa_1' && subscriptionData">
+          <div class="pays-per-s" *ngIf = "id_project == 'nido_de_agua' && subscriptionData">
             <div class="pagos-por-suscripcion">Pagos por suscripción</div>
 
             <div class="muted-simple">Cuotas mensuales ( {{subscriptionData.installments.length}} meses) </div>
