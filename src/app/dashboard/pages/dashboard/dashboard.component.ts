@@ -3,7 +3,7 @@ import { InversionCardData } from '../../interfaces/InversionCardData.interface'
 import { PropertyData } from '../../interfaces/PropertiesResponse.interface';
 import { UserData } from '../../interfaces/userDataResponse.interface';
 import { UserApiService } from '../../services/userApi.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -16,7 +16,18 @@ export class DashboardComponent implements OnInit {
   userData!: UserData;
   userProperties: PropertyData[] = []
 
-  constructor(private api: UserApiService, private route: ActivatedRoute) {
+  constructor(private api: UserApiService, private route: ActivatedRoute, private router: Router) {
+    let token = this.route.snapshot.queryParamMap.get('token');
+    if (!token) {
+      token = localStorage.getItem('token')
+      if(!token) {
+        console.log("sin token");
+        this.router.navigateByUrl('')
+      }
+    }
+    else{
+      localStorage.setItem('token', token)
+    }
   }
 
   ngOnInit(): void {
