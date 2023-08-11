@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url: 'https://api.lokl.life/api/v1/',
+  url: 'https://develop.api.lokl.life/api/v1/',
   unit_value: 114000,
 
   redirect_url_success_wompi_pse: 'https://lokl.life/payment/successful',
@@ -20,6 +20,7 @@ export const environment = {
   api_url_financial_institutions:
     'https://production.wompi.co/v1/pse/financial_institutions',
   api_url_wompi_transactions: 'https://production.wompi.co/v1/transactions/',
+  url_dash: 'https://apidash.lokl.life/get_info_pms',
 };
 
 /*
