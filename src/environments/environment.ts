@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url: 'https://develop.api.lokl.life/api/v1/',
+  url: 'https://api.lokl.life/api/v1/',
   unit_value: 114000,
 
   redirect_url_success_wompi_pse: 'https://lokl.life/payment/successful',
