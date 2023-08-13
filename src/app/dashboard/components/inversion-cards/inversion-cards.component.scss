@@ -1,0 +1,29 @@
+
+@media (min-width: 0px) {
+  app-inversion-card{
+    width: 100%!important;
+    flex: 0 0 auto;
+
+  }
+}
+
+@media (min-width: 960px) {
+  app-inversion-card{
+    width: 50%!important;
+    flex: 0 0 auto;
+  }
+}
+
+@media (min-width: 1350px) {
+  app-inversion-card{
+    width: 33%!important;
+    flex: 0 0 auto;
+  }
+}
+
+@media (min-width: 1660px) {
+  app-inversion-card{
+    width: 25%!important;
+    flex: 0 0 auto;
+  }
+}
