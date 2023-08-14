@@ -21,6 +21,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { monthDueValidator } from '../../validators/monthDue.validator';
 import { environment } from 'src/environments/environment';
 import { ActivatedRoute } from '@angular/router';
+import { ArrayType } from '@angular/compiler';
 
 @Component({
   selector: 'app-payment',
@@ -231,7 +232,9 @@ export class PaymentComponent implements OnInit {
 
   ngOnInit(): void {
 
-    const reference = this.route.snapshot.queryParamMap.get('reference')
+    if([]) console.log('pasa true');
+
+    let reference = this.route.snapshot.queryParamMap.get('reference')
     const amount = this.route.snapshot.queryParamMap.get('amount')
     const type = this.route.snapshot.queryParamMap.get('type')
     const inversion_total = this.route.snapshot.queryParamMap.get('inversion_total')
@@ -239,13 +242,12 @@ export class PaymentComponent implements OnInit {
     const meses = this.route.snapshot.queryParamMap.get('meses')
     const valor_mes = this.route.snapshot.queryParamMap.get('valor_mes')
 
-    console.log({
-      reference, amount, type, inversion_total, impuestos, meses, valor_mes,
-    })
-
     if(reference && amount && type && inversion_total && impuestos && meses && valor_mes){
-      this.reference = reference
-      localStorage.setItem('investment_total', amount)
+      const arrayRef = reference.split('_');
+      arrayRef.pop();
+      reference = arrayRef.join('_') + `_${Math.random().toString().slice(-5, -1)}`;
+      this.reference = reference;
+      localStorage.setItem('investment', amount)
       localStorage.setItem('type', type)
       localStorage.setItem('investment_total', inversion_total)
       localStorage.setItem('taxes', impuestos)
