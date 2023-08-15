@@ -20,6 +20,8 @@ import * as jwt_decode from 'jwt-decode';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { monthDueValidator } from '../../validators/monthDue.validator';
 import { environment } from 'src/environments/environment';
+import { ActivatedRoute } from '@angular/router';
+import { ArrayType } from '@angular/compiler';
 
 @Component({
   selector: 'app-payment',
@@ -30,6 +32,7 @@ export class PaymentComponent implements OnInit {
   public fecha: Date = new Date();
 
   validatingTransaction: boolean = false;
+  reference?: string;
 
   tarjetaActiva: boolean = false;
 
@@ -223,7 +226,8 @@ export class PaymentComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private apiservice: ApiService
+    private apiservice: ApiService,
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
@@ -234,6 +238,28 @@ export class PaymentComponent implements OnInit {
       }
     } else {
       //No hay tipo en el local Storage
+    }
+    if([]) console.log('pasa true');
+
+    let reference = this.route.snapshot.queryParamMap.get('reference')
+    const amount = this.route.snapshot.queryParamMap.get('amount')
+    const type = this.route.snapshot.queryParamMap.get('type')
+    const inversion_total = this.route.snapshot.queryParamMap.get('inversion_total')
+    const impuestos = this.route.snapshot.queryParamMap.get('impuestos')
+    const meses = this.route.snapshot.queryParamMap.get('meses')
+    const valor_mes = this.route.snapshot.queryParamMap.get('valor_mes')
+
+    if(reference && amount && type && inversion_total && impuestos && meses && valor_mes){
+      const arrayRef = reference.split('_');
+      arrayRef.pop();
+      reference = arrayRef.join('_') + `_${Math.random().toString().slice(-5, -1)}`;
+      this.reference = reference;
+      localStorage.setItem('investment', amount)
+      localStorage.setItem('type', type)
+      localStorage.setItem('investment_total', inversion_total)
+      localStorage.setItem('taxes', impuestos)
+      localStorage.setItem('months', meses)
+      localStorage.setItem('month_value', valor_mes)
     }
 
     this.body = this.fb.group({
@@ -295,20 +321,22 @@ export class PaymentComponent implements OnInit {
       acceptTerms: localStorage.getItem('true'),
     });
 
-    this.firstNameControl = this.body.get('first_name') as FormControl;
-    this.address = this.body.get('address') as FormControl;
-    this.document_type = this.body.get('document_type') as FormControl;
-    this.document_number = this.body.get('document_number') as FormControl;
-    this.phone = this.body.get('phone') as FormControl;
-    this.emailAdress = this.body.get('emailAdress') as FormControl;
-    this.type_person = this.body.get('type_person') as FormControl;
-    this.rut = this.body.get('rut') as FormControl;
+    // TODO: DESCOMENTAR EN CASO DE NECESITAR AUTOCOMPLETAR ESTA INFO DEL FORM
+    // this.firstNameControl = this.body.get('first_name') as FormControl;
+    // this.address = this.body.get('address') as FormControl;
+    // this.document_type = this.body.get('document_type') as FormControl;
+    // this.document_number = this.body.get('document_number') as FormControl;
+    // this.phone = this.body.get('phone') as FormControl;
+    // this.emailAdress = this.body.get('emailAdress') as FormControl;
+    // this.type_person = this.body.get('type_person') as FormControl;
+    // this.rut = this.body.get('rut') as FormControl;
 
     this.patchForm();
     this.fetchDocumentsTypes();
   }
 
   // ----------------------- //
+
 
   onfocusSelects() {
     this.subSelectTypeDocument.next(false);
@@ -320,10 +348,10 @@ export class PaymentComponent implements OnInit {
     const token = localStorage.getItem('token');
     if (!token) return;
     const payload: any = jwt_decode.default(token);
-    const reference =
-      payload.id +
-      '_632511ecd407318f2592f945_' +
-      Math.random().toString().slice(-5, -1);
+    const reference = this.reference ? this.reference :
+        payload.id +
+        '_632511ecd407318f2592f945_' +
+        Math.random().toString().slice(-5, -1);
 
     let body = {
       bank_code: this?.body.get('selectedStateBank')?.value,

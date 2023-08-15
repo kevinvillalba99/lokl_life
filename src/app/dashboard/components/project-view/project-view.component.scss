@@ -3,7 +3,70 @@
 
 .contenedor-principal{
   width: fit-content;
+
 }
+
+.separador-izquierda{
+  padding-left: 1rem!important;
+  padding-right: 1rem!important;
+}
+
+@media screen and (max-width:1365px){
+  .contenedor-principal{
+    max-width: 100%!important;
+  }
+
+  .contenedor-details{
+    width: 33.33333333333333333333333%;
+  }
+
+  .contenedor-multimedia{
+    width: 66.66666666666666666666666%;
+  }
+
+  .separador-izquierda{
+    padding-left: .25rem!important;
+    padding-right: .25rem!important;
+  }
+
+  .vista-video{
+    position: relative;
+    margin-bottom: 1rem;
+    width: 100%!important;
+    height: auto!important;
+  }
+
+  .img-miniatura{
+    width: 100%!important;
+    height: auto!important;
+  }
+}
+
+@media screen and (max-width:1178px){
+  mat-tab-group{
+    display: none;
+  }
+
+  .responsive-view{
+    display: inline!important;
+  }
+
+  .desc-pdf-cont{
+    margin-top: .75rem;
+    width: 99%!important;
+    padding: 30px;
+    margin-right: 20px;
+  }
+
+  .pays-per-s{
+    margin-top: .75rem;
+    width: 99%!important;
+    padding: 30px;
+    margin-right: 20px;
+    margin-bottom: 50px;
+  }
+}
+
 
 .encabezado-detalles{
   background-color: rgb(235 226 221);
@@ -41,6 +104,8 @@
   border-radius: 1rem;
   background-color: #fff;
 }
+
+
 
 .title-project{
   font-weight: 900;
@@ -237,7 +302,6 @@
   padding-left: 2rem;
   padding-right: 2rem;
   align-items: center;
-  width: 100%;
   margin-bottom: 1rem!important;
   margin-top: 1rem!important;
   margin-right: 0;
@@ -452,4 +516,19 @@
   font-size: 2.25rem;
   line-height: 2.5rem;
   font-weight: 800;
+}
+
+.title-responsive{
+  font-weight: 900;
+  font-size: 23px;
+  font-family: Lato,sans-serif;
+  margin-bottom: 17px;
+}
+
+.responsive-contenedor-details{
+  width: 99%;
+  padding: 30px;
+  margin-right: 20px;
+  border-radius: 1rem;
+  background-color: #fff;
 }

@@ -73,6 +73,7 @@ export class ProjectViewComponent implements OnInit {
     this.loadYoutubePlayerAPI();
   }
 
+
   updateProperty(resp:any){
     this.actualProperty =
       this.propertiesData!.find( property => property.property.lokl_id == resp['lokl_id'] )
@@ -125,5 +126,17 @@ export class ProjectViewComponent implements OnInit {
 
   pagarCuotaProx(){
 
+    const reference = this.cuotasPendientes[0].installment_reference;
+    const amount = this.cuotasPendientes[0].installment_value;
+    const inversion_total = this.actualProperty?.payment;
+    const impuestos = this.subscriptionData?.tax; //TODO: Enviar en caso de no quemar valor (preguntar )
+
+    const meses = this.subscriptionData?.installments.length;
+    const valor_mes = this.subscriptionData?.installments[0].installment_value;
+
+    const paymentInfo =
+      `reference=${reference}&amount=${amount}&type=0&inversion_total=${inversion_total}&impuestos=${0}&meses=${meses}&valor_mes=${valor_mes}&dashboard=1`;
+
+    this.router.navigateByUrl(`checkout/confirm-payment?${paymentInfo}`)
   }
 }
