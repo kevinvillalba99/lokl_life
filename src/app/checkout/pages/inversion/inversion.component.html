@@ -29,14 +29,14 @@
           <div class="col-12 col-lg-8 offset-0 offset-lg-1">
             <label for="exampleInputEmail1" class="form-label text-muted">¿Cuánto quieres invertir?</label>
             <div class= "border input-group rounded-0" [ngClass] = "{'input-selected': inputActivated}">
-              <input type="text" class="form-control form-control-lg rounded-0 border-0 col-10" formControlName="value" onlyNumber
-                (focus)="inputFocus()" (blur) = "inputBlur()" (input)="inputValue($event)" placeholder="$0" />
-              <div class = "d-flex justify-content-center input-group-append col-2" style = "border-left: 1px solid #f1f1f1!important">
+              <input type="text" class="form-control form-control-lg rounded-0 border-0 col-9" maxlength = "10"
+                (focus)="inputFocus()" (blur) = "inputBlur()" (input)="inputValue($event)" placeholder="units" onlyNumber/>
+              <div class = "d-flex justify-content-center input-group-append col-3" style = "border-left: 1px solid #f1f1f1!important">
                 <div class="d-flex flex-column input-group-text border-0 align-center p-2" style = "background-color: transparent!important; ">
                   <p class = "m-0 fw-heavy fs-7">
-                    {{currentUnits}}
+                    $ {{formInversion.value.value}} COP
                   </p>
-                  <p class = "text-muted fs-8 m-0" style = "position: absolute; bottom: 4px">units</p>
+                  <p class = "text-muted fs-8 m-0" style = "position: absolute; bottom: 4px">precio</p>
                 </div>
               </div>
             </div>

@@ -83,9 +83,7 @@ export class InversionComponent implements OnInit, OnDestroy {
   valorCuota = 0;
   currentUnits = 0;
 
-  alertText = `El monto mínimo para invertir es de $${this.gStringDots(
-    this.unitValue * 100
-  )}`;
+  alertText = `El monto mínimo a invertir debe ser equivalente a 100 Units`;
 
   paymentCards: PaymentCard[] = [
     { name: 'visa', selected: false },
@@ -423,25 +421,17 @@ export class InversionComponent implements OnInit, OnDestroy {
   }
 
   inputValue(event: any) {
-    if (event.target.value > 1e15) {
-      this.formInversion.patchValue({
-        value: this.gStringDots(this.inversionValue),
-      });
-      return;
-    }
+
+    this.currentUnits = Number(event.target.value);
 
     this.alertaUnits = false;
 
-    let aux = this.formInversion.value.value.replace(/\./g, '');
-    if (aux[0] == '0') {
-      aux = event.target.value.substring(1);
-    }
-    aux = aux.replace(/[^0-9]/g, '');
-    this.inversionValue = Number(aux);
+    this.inversionValue = this.currentUnits * this.unitValue;
+    this.formInversion.patchValue({ value: this.gStringDots( this.inversionValue ) });
+
 
     this.calcularMontos();
 
-    this.formInversion.patchValue({ value: this.gStringDots(aux) });
   }
 
   gStringDots(valor: number): string {
