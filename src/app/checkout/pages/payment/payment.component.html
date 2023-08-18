@@ -80,6 +80,7 @@
         <div class="row mb-5">
           <div class="col-12 col-sm-12 col-lg-8 offset-lg-3 container-inputs-payment">
             <label for="exampleInputEmail1" class="form-label text-muted">Nombre</label>
+
             <app-input [control]="firstNameControl"></app-input>
           </div>
         </div>
@@ -155,7 +156,7 @@
           </div>
         </div>
 
-        <button mat-button (click)="sendDataInvestment()"
+        <button mat-button (click)="submit()"
           class="btn bg-black rounded rounded-5 w-100 text-white pb-1 pt-1 mt-3 d-lg-none" style="height: 40px">
           Invertir
         </button>

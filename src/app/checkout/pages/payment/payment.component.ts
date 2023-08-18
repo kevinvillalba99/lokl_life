@@ -322,14 +322,14 @@ export class PaymentComponent implements OnInit {
     });
 
     // TODO: DESCOMENTAR EN CASO DE NECESITAR AUTOCOMPLETAR ESTA INFO DEL FORM
-    // this.firstNameControl = this.body.get('first_name') as FormControl;
-    // this.address = this.body.get('address') as FormControl;
+    this.firstNameControl = this.body.get('first_name') as FormControl;
+    this.address = this.body.get('address') as FormControl;
     this.document_type = this.body.get('document_type') as FormControl;
-    // this.document_number = this.body.get('document_number') as FormControl;
-    // this.phone = this.body.get('phone') as FormControl;
+    this.document_number = this.body.get('document_number') as FormControl;
+    this.phone = this.body.get('phone') as FormControl;
     this.emailAdress = this.body.get('emailAdress') as FormControl;
-    // this.type_person = this.body.get('type_person') as FormControl;
-    // this.rut = this.body.get('rut') as FormControl;
+    this.type_person = this.body.get('type_person') as FormControl;
+    this.rut = this.body.get('rut') as FormControl;
 
     this.patchForm();
     this.fetchDocumentsTypes();
@@ -451,7 +451,6 @@ export class PaymentComponent implements OnInit {
         prepayment: '0',
       };
 
-      console.log(body);
 
       this.apiservice.post(`transaction`, body).subscribe(
         (res: any) => {
@@ -469,6 +468,7 @@ export class PaymentComponent implements OnInit {
 
 
   redirectPse(id: string) {
+
     const apiUrl = `${this.api_url_wompi_transactions}${id}`;
 
     // token Bearer
@@ -485,8 +485,10 @@ export class PaymentComponent implements OnInit {
         console.log('resPse', resPse);
 
         if (resPse) {
-          if (resPse?.data?.status === 'APPROVED') {
+          if (resPse?.data?.status === 'PENDING') {
             let url = resPse?.data?.payment_method?.extra?.async_payment_url;
+
+            console.log(url);
 
             if (url !== null || url !== undefined) {
               window.location.href = url;
@@ -546,13 +548,13 @@ export class PaymentComponent implements OnInit {
       }
     });
 
-    this.body.patchValue({
-      first_name: `${first_name ?? ''} ${last_name ?? ''}`,
-    });
-    this.body.patchValue({ address });
-    this.body.patchValue({ document_number });
-    this.body.patchValue({ phone });
-    this.body.patchValue({ document_type });
+    // this.body.patchValue({
+    //   first_name: `${first_name ?? ''} ${last_name ?? ''}`,
+    // });
+    // this.body.patchValue({ address });
+    // this.body.patchValue({ document_number });
+    // this.body.patchValue({ phone });
+    // this.body.patchValue({ document_type });
 
     this.formInversion.value.dues = months;
     this.inversionValue = Number(investment) ?? 0;
