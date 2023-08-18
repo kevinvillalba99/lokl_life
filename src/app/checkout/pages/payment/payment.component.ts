@@ -485,7 +485,7 @@ export class PaymentComponent implements OnInit {
         console.log('resPse', resPse);
 
         if (resPse) {
-          if (resPse?.data?.status === 'APPROVED') {
+          if (resPse?.data?.status === 'PENDING') {
             let url = resPse?.data?.payment_method?.extra?.async_payment_url;
 
             if (url !== null || url !== undefined) {
