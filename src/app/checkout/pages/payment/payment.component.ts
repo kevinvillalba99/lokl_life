@@ -264,7 +264,7 @@ export class PaymentComponent implements OnInit {
 
     this.body = this.fb.group({
       first_name: ['', [Validators.required]],
-      address: ['', [Validators.required]],
+      address: ['', [Validators.required, Validators.minLength(5)]],
       document_type: ['', Validators.required],
       document_number: ['', Validators.required],
       phone: ['', [Validators.required]],
@@ -404,6 +404,7 @@ export class PaymentComponent implements OnInit {
 
   // Funcion de pago con tarjeta de credito
   submit() {
+    if(this.body.invalid) return;
     this.validatingTransaction = true;
     setTimeout(() => (this.validatingTransaction = false), 30000);
 

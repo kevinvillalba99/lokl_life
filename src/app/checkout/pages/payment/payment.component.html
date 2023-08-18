@@ -156,7 +156,7 @@
           </div>
         </div>
 
-        <button mat-button (click)="submit()"
+        <button mat-button (click)="submit()" [ngClass] = " {'disabled':body.invalid}"
           class="btn bg-black rounded rounded-5 w-100 text-white pb-1 pt-1 mt-3 d-lg-none" style="height: 40px">
           Invertir
         </button>
@@ -227,7 +227,7 @@
           </div>
 
           <button mat-button type="button" class="btn bg-black rounded rounded-5 w-100 text-white pb-1 pt-1 mt-3"
-            style="height: 40px" (click)="submit()">
+            style="height: 40px" (click)="submit()" [ngClass] = " {'disabled':body.invalid}">
             Invertir
           </button>
         </div>
