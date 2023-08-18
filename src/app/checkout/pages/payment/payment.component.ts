@@ -76,9 +76,9 @@ export class PaymentComponent implements OnInit {
   ];
   public opcionesSelectTypeDocument: CustomSelectElement[] = [
     { name: 'Seleccione su tipo de documento', value: '', selected: false },
-    { name: 'Cédula de ciudadanía', value: 1, selected: false },
-    { name: 'Cédula de extranjería', value: 2, selected: false },
-    { name: 'Pasaporte', value: 3, selected: false },
+    { name: 'Cédula de ciudadanía', value: 'CC', selected: false },
+    { name: 'Cédula de extranjería', value: 'CE', selected: false },
+    { name: 'Pasaporte', value: 'PP', selected: false },
   ];
 
   // ------ enviroment --------
