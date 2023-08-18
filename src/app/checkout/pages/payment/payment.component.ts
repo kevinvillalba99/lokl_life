@@ -76,9 +76,9 @@ export class PaymentComponent implements OnInit {
   ];
   public opcionesSelectTypeDocument: CustomSelectElement[] = [
     { name: 'Seleccione su tipo de documento', value: '', selected: false },
-    { name: 'Cédula de ciudadanía', value: 1, selected: false },
-    { name: 'Cédula de extranjería', value: 2, selected: false },
-    { name: 'Pasaporte', value: 3, selected: false },
+    { name: 'Cédula de ciudadanía', value: 'CC', selected: false },
+    { name: 'Cédula de extranjería', value: 'CE', selected: false },
+    { name: 'Pasaporte', value: 'PP', selected: false },
   ];
 
   // ------ enviroment --------
@@ -231,7 +231,14 @@ export class PaymentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
+    if (localStorage.getItem('type')) {
+      if (localStorage.getItem('type')! == '0') {
+      } else {
+        this.tarjetaActiva = localStorage.getItem('type')! == '1';
+      }
+    } else {
+      //No hay tipo en el local Storage
+    }
     if([]) console.log('pasa true');
 
     let reference = this.route.snapshot.queryParamMap.get('reference')
@@ -317,10 +324,10 @@ export class PaymentComponent implements OnInit {
     // TODO: DESCOMENTAR EN CASO DE NECESITAR AUTOCOMPLETAR ESTA INFO DEL FORM
     // this.firstNameControl = this.body.get('first_name') as FormControl;
     // this.address = this.body.get('address') as FormControl;
-    // this.document_type = this.body.get('document_type') as FormControl;
+    this.document_type = this.body.get('document_type') as FormControl;
     // this.document_number = this.body.get('document_number') as FormControl;
     // this.phone = this.body.get('phone') as FormControl;
-    // this.emailAdress = this.body.get('emailAdress') as FormControl;
+    this.emailAdress = this.body.get('emailAdress') as FormControl;
     // this.type_person = this.body.get('type_person') as FormControl;
     // this.rut = this.body.get('rut') as FormControl;
 

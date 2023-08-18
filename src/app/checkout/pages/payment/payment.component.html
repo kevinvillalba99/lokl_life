@@ -144,7 +144,7 @@
         <div class="row mb-5">
           <div class="col-12 col-sm-12 col-lg-8 offset-lg-3 container-inputs-payment">
             <label for="exampleInputEmail1" class="form-label text-muted">Correo</label>
-            <app-input [control]="emailAdress"></app-input>
+            <input type="text" class = "input-card form-control rounded-0" formControlName = "emailAdress" style = "height: 48px;">
           </div>
         </div>
 
@@ -156,8 +156,7 @@
         </div>
 
         <button mat-button (click)="sendDataInvestment()"
-          class="btn bg-black rounded rounded-5 w-100 text-white pb-1 pt-1 mt-3 d-lg-none" style="height: 40px"
-          [disabled]="body.invalid">
+          class="btn bg-black rounded rounded-5 w-100 text-white pb-1 pt-1 mt-3 d-lg-none" style="height: 40px">
           Invertir
         </button>
       </div>
@@ -227,8 +226,7 @@
           </div>
 
           <button mat-button type="button" class="btn bg-black rounded rounded-5 w-100 text-white pb-1 pt-1 mt-3"
-            style="height: 40px" (click)="submit()"
-            [disabled]="body.invalid">
+            style="height: 40px" (click)="submit()">
             Invertir
           </button>
         </div>
