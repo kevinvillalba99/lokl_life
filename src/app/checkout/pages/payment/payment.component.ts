@@ -324,10 +324,10 @@ export class PaymentComponent implements OnInit {
     // TODO: DESCOMENTAR EN CASO DE NECESITAR AUTOCOMPLETAR ESTA INFO DEL FORM
     // this.firstNameControl = this.body.get('first_name') as FormControl;
     // this.address = this.body.get('address') as FormControl;
-    // this.document_type = this.body.get('document_type') as FormControl;
+    this.document_type = this.body.get('document_type') as FormControl;
     // this.document_number = this.body.get('document_number') as FormControl;
     // this.phone = this.body.get('phone') as FormControl;
-    // this.emailAdress = this.body.get('emailAdress') as FormControl;
+    this.emailAdress = this.body.get('emailAdress') as FormControl;
     // this.type_person = this.body.get('type_person') as FormControl;
     // this.rut = this.body.get('rut') as FormControl;
 
